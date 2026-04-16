@@ -28,4 +28,4 @@ COPY --from=build /app/src/generated ./src/generated
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "DB_NAME=${POSTGRES_DB:-${POSTGRES_PROD_DB:-${POSTGRES_TEST_DB}}}; export DATABASE_URL=\"postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${DB_NAME}?schema=${POSTGRES_SCHEMA}\"; npx prisma migrate deploy && node dist/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
