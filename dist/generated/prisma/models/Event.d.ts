@@ -15,14 +15,12 @@ export type EventMinAggregateOutputType = {
     createdAt: Date | null;
     name: string | null;
     userId: string | null;
-    deviceDbId: string | null;
 };
 export type EventMaxAggregateOutputType = {
     id: string | null;
     createdAt: Date | null;
     name: string | null;
     userId: string | null;
-    deviceDbId: string | null;
 };
 export type EventCountAggregateOutputType = {
     id: number;
@@ -30,7 +28,6 @@ export type EventCountAggregateOutputType = {
     name: number;
     propsJson: number;
     userId: number;
-    deviceDbId: number;
     _all: number;
 };
 export type EventMinAggregateInputType = {
@@ -38,14 +35,12 @@ export type EventMinAggregateInputType = {
     createdAt?: true;
     name?: true;
     userId?: true;
-    deviceDbId?: true;
 };
 export type EventMaxAggregateInputType = {
     id?: true;
     createdAt?: true;
     name?: true;
     userId?: true;
-    deviceDbId?: true;
 };
 export type EventCountAggregateInputType = {
     id?: true;
@@ -53,7 +48,6 @@ export type EventCountAggregateInputType = {
     name?: true;
     propsJson?: true;
     userId?: true;
-    deviceDbId?: true;
     _all?: true;
 };
 export type EventAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -124,7 +118,6 @@ export type EventGroupByOutputType = {
     name: string;
     propsJson: runtime.JsonValue | null;
     userId: string | null;
-    deviceDbId: string | null;
     _count: EventCountAggregateOutputType | null;
     _min: EventMinAggregateOutputType | null;
     _max: EventMaxAggregateOutputType | null;
@@ -141,9 +134,7 @@ export type EventWhereInput = {
     name?: Prisma.StringFilter<"Event"> | string;
     propsJson?: Prisma.JsonNullableFilter<"Event">;
     userId?: Prisma.StringNullableFilter<"Event"> | string | null;
-    deviceDbId?: Prisma.StringNullableFilter<"Event"> | string | null;
     user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
-    device?: Prisma.XOR<Prisma.DeviceNullableScalarRelationFilter, Prisma.DeviceWhereInput> | null;
 };
 export type EventOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -151,9 +142,7 @@ export type EventOrderByWithRelationInput = {
     name?: Prisma.SortOrder;
     propsJson?: Prisma.SortOrderInput | Prisma.SortOrder;
     userId?: Prisma.SortOrderInput | Prisma.SortOrder;
-    deviceDbId?: Prisma.SortOrderInput | Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
-    device?: Prisma.DeviceOrderByWithRelationInput;
 };
 export type EventWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -164,9 +153,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
     name?: Prisma.StringFilter<"Event"> | string;
     propsJson?: Prisma.JsonNullableFilter<"Event">;
     userId?: Prisma.StringNullableFilter<"Event"> | string | null;
-    deviceDbId?: Prisma.StringNullableFilter<"Event"> | string | null;
     user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
-    device?: Prisma.XOR<Prisma.DeviceNullableScalarRelationFilter, Prisma.DeviceWhereInput> | null;
 }, "id">;
 export type EventOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -174,7 +161,6 @@ export type EventOrderByWithAggregationInput = {
     name?: Prisma.SortOrder;
     propsJson?: Prisma.SortOrderInput | Prisma.SortOrder;
     userId?: Prisma.SortOrderInput | Prisma.SortOrder;
-    deviceDbId?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.EventCountOrderByAggregateInput;
     _max?: Prisma.EventMaxOrderByAggregateInput;
     _min?: Prisma.EventMinOrderByAggregateInput;
@@ -188,7 +174,6 @@ export type EventScalarWhereWithAggregatesInput = {
     name?: Prisma.StringWithAggregatesFilter<"Event"> | string;
     propsJson?: Prisma.JsonNullableWithAggregatesFilter<"Event">;
     userId?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null;
-    deviceDbId?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null;
 };
 export type EventCreateInput = {
     id?: string;
@@ -196,7 +181,6 @@ export type EventCreateInput = {
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     user?: Prisma.UserCreateNestedOneWithoutEventsInput;
-    device?: Prisma.DeviceCreateNestedOneWithoutEventsInput;
 };
 export type EventUncheckedCreateInput = {
     id?: string;
@@ -204,7 +188,6 @@ export type EventUncheckedCreateInput = {
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     userId?: string | null;
-    deviceDbId?: string | null;
 };
 export type EventUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -212,7 +195,6 @@ export type EventUpdateInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     user?: Prisma.UserUpdateOneWithoutEventsNestedInput;
-    device?: Prisma.DeviceUpdateOneWithoutEventsNestedInput;
 };
 export type EventUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -220,7 +202,6 @@ export type EventUncheckedUpdateInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    deviceDbId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type EventCreateManyInput = {
     id?: string;
@@ -228,7 +209,6 @@ export type EventCreateManyInput = {
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     userId?: string | null;
-    deviceDbId?: string | null;
 };
 export type EventUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -242,7 +222,6 @@ export type EventUncheckedUpdateManyInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    deviceDbId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type EventListRelationFilter = {
     every?: Prisma.EventWhereInput;
@@ -258,21 +237,18 @@ export type EventCountOrderByAggregateInput = {
     name?: Prisma.SortOrder;
     propsJson?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    deviceDbId?: Prisma.SortOrder;
 };
 export type EventMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    deviceDbId?: Prisma.SortOrder;
 };
 export type EventMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
-    deviceDbId?: Prisma.SortOrder;
 };
 export type EventCreateNestedManyWithoutUserInput = {
     create?: Prisma.XOR<Prisma.EventCreateWithoutUserInput, Prisma.EventUncheckedCreateWithoutUserInput> | Prisma.EventCreateWithoutUserInput[] | Prisma.EventUncheckedCreateWithoutUserInput[];
@@ -312,57 +288,20 @@ export type EventUncheckedUpdateManyWithoutUserNestedInput = {
     updateMany?: Prisma.EventUpdateManyWithWhereWithoutUserInput | Prisma.EventUpdateManyWithWhereWithoutUserInput[];
     deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[];
 };
-export type EventCreateNestedManyWithoutDeviceInput = {
-    create?: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput> | Prisma.EventCreateWithoutDeviceInput[] | Prisma.EventUncheckedCreateWithoutDeviceInput[];
-    connectOrCreate?: Prisma.EventCreateOrConnectWithoutDeviceInput | Prisma.EventCreateOrConnectWithoutDeviceInput[];
-    createMany?: Prisma.EventCreateManyDeviceInputEnvelope;
-    connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-};
-export type EventUncheckedCreateNestedManyWithoutDeviceInput = {
-    create?: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput> | Prisma.EventCreateWithoutDeviceInput[] | Prisma.EventUncheckedCreateWithoutDeviceInput[];
-    connectOrCreate?: Prisma.EventCreateOrConnectWithoutDeviceInput | Prisma.EventCreateOrConnectWithoutDeviceInput[];
-    createMany?: Prisma.EventCreateManyDeviceInputEnvelope;
-    connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-};
-export type EventUpdateManyWithoutDeviceNestedInput = {
-    create?: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput> | Prisma.EventCreateWithoutDeviceInput[] | Prisma.EventUncheckedCreateWithoutDeviceInput[];
-    connectOrCreate?: Prisma.EventCreateOrConnectWithoutDeviceInput | Prisma.EventCreateOrConnectWithoutDeviceInput[];
-    upsert?: Prisma.EventUpsertWithWhereUniqueWithoutDeviceInput | Prisma.EventUpsertWithWhereUniqueWithoutDeviceInput[];
-    createMany?: Prisma.EventCreateManyDeviceInputEnvelope;
-    set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    update?: Prisma.EventUpdateWithWhereUniqueWithoutDeviceInput | Prisma.EventUpdateWithWhereUniqueWithoutDeviceInput[];
-    updateMany?: Prisma.EventUpdateManyWithWhereWithoutDeviceInput | Prisma.EventUpdateManyWithWhereWithoutDeviceInput[];
-    deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[];
-};
-export type EventUncheckedUpdateManyWithoutDeviceNestedInput = {
-    create?: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput> | Prisma.EventCreateWithoutDeviceInput[] | Prisma.EventUncheckedCreateWithoutDeviceInput[];
-    connectOrCreate?: Prisma.EventCreateOrConnectWithoutDeviceInput | Prisma.EventCreateOrConnectWithoutDeviceInput[];
-    upsert?: Prisma.EventUpsertWithWhereUniqueWithoutDeviceInput | Prisma.EventUpsertWithWhereUniqueWithoutDeviceInput[];
-    createMany?: Prisma.EventCreateManyDeviceInputEnvelope;
-    set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[];
-    update?: Prisma.EventUpdateWithWhereUniqueWithoutDeviceInput | Prisma.EventUpdateWithWhereUniqueWithoutDeviceInput[];
-    updateMany?: Prisma.EventUpdateManyWithWhereWithoutDeviceInput | Prisma.EventUpdateManyWithWhereWithoutDeviceInput[];
-    deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[];
+export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null;
 };
 export type EventCreateWithoutUserInput = {
     id?: string;
     createdAt?: Date | string;
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    device?: Prisma.DeviceCreateNestedOneWithoutEventsInput;
 };
 export type EventUncheckedCreateWithoutUserInput = {
     id?: string;
     createdAt?: Date | string;
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    deviceDbId?: string | null;
 };
 export type EventCreateOrConnectWithoutUserInput = {
     where: Prisma.EventWhereUniqueInput;
@@ -394,98 +333,30 @@ export type EventScalarWhereInput = {
     name?: Prisma.StringFilter<"Event"> | string;
     propsJson?: Prisma.JsonNullableFilter<"Event">;
     userId?: Prisma.StringNullableFilter<"Event"> | string | null;
-    deviceDbId?: Prisma.StringNullableFilter<"Event"> | string | null;
-};
-export type EventCreateWithoutDeviceInput = {
-    id?: string;
-    createdAt?: Date | string;
-    name: string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    user?: Prisma.UserCreateNestedOneWithoutEventsInput;
-};
-export type EventUncheckedCreateWithoutDeviceInput = {
-    id?: string;
-    createdAt?: Date | string;
-    name: string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    userId?: string | null;
-};
-export type EventCreateOrConnectWithoutDeviceInput = {
-    where: Prisma.EventWhereUniqueInput;
-    create: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput>;
-};
-export type EventCreateManyDeviceInputEnvelope = {
-    data: Prisma.EventCreateManyDeviceInput | Prisma.EventCreateManyDeviceInput[];
-    skipDuplicates?: boolean;
-};
-export type EventUpsertWithWhereUniqueWithoutDeviceInput = {
-    where: Prisma.EventWhereUniqueInput;
-    update: Prisma.XOR<Prisma.EventUpdateWithoutDeviceInput, Prisma.EventUncheckedUpdateWithoutDeviceInput>;
-    create: Prisma.XOR<Prisma.EventCreateWithoutDeviceInput, Prisma.EventUncheckedCreateWithoutDeviceInput>;
-};
-export type EventUpdateWithWhereUniqueWithoutDeviceInput = {
-    where: Prisma.EventWhereUniqueInput;
-    data: Prisma.XOR<Prisma.EventUpdateWithoutDeviceInput, Prisma.EventUncheckedUpdateWithoutDeviceInput>;
-};
-export type EventUpdateManyWithWhereWithoutDeviceInput = {
-    where: Prisma.EventScalarWhereInput;
-    data: Prisma.XOR<Prisma.EventUpdateManyMutationInput, Prisma.EventUncheckedUpdateManyWithoutDeviceInput>;
 };
 export type EventCreateManyUserInput = {
     id?: string;
     createdAt?: Date | string;
     name: string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    deviceDbId?: string | null;
 };
 export type EventUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    device?: Prisma.DeviceUpdateOneWithoutEventsNestedInput;
 };
 export type EventUncheckedUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    deviceDbId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type EventUncheckedUpdateManyWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
     propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    deviceDbId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-};
-export type EventCreateManyDeviceInput = {
-    id?: string;
-    createdAt?: Date | string;
-    name: string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    userId?: string | null;
-};
-export type EventUpdateWithoutDeviceInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    user?: Prisma.UserUpdateOneWithoutEventsNestedInput;
-};
-export type EventUncheckedUpdateWithoutDeviceInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-};
-export type EventUncheckedUpdateManyWithoutDeviceInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    name?: Prisma.StringFieldUpdateOperationsInput | string;
-    propsJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
-    userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -493,9 +364,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     name?: boolean;
     propsJson?: boolean;
     userId?: boolean;
-    deviceDbId?: boolean;
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 }, ExtArgs["result"]["event"]>;
 export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -503,9 +372,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     name?: boolean;
     propsJson?: boolean;
     userId?: boolean;
-    deviceDbId?: boolean;
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 }, ExtArgs["result"]["event"]>;
 export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -513,9 +380,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     name?: boolean;
     propsJson?: boolean;
     userId?: boolean;
-    deviceDbId?: boolean;
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 }, ExtArgs["result"]["event"]>;
 export type EventSelectScalar = {
     id?: boolean;
@@ -523,26 +388,21 @@ export type EventSelectScalar = {
     name?: boolean;
     propsJson?: boolean;
     userId?: boolean;
-    deviceDbId?: boolean;
 };
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "name" | "propsJson" | "userId" | "deviceDbId", ExtArgs["result"]["event"]>;
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "name" | "propsJson" | "userId", ExtArgs["result"]["event"]>;
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 };
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 };
 export type EventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.Event$userArgs<ExtArgs>;
-    device?: boolean | Prisma.Event$deviceArgs<ExtArgs>;
 };
 export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Event";
     objects: {
         user: Prisma.$UserPayload<ExtArgs> | null;
-        device: Prisma.$DevicePayload<ExtArgs> | null;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -550,7 +410,6 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
         name: string;
         propsJson: runtime.JsonValue | null;
         userId: string | null;
-        deviceDbId: string | null;
     }, ExtArgs["result"]["event"]>;
     composites: {};
 };
@@ -881,7 +740,6 @@ export interface EventDelegate<ExtArgs extends runtime.Types.Extensions.Internal
 export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
     user<T extends Prisma.Event$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
-    device<T extends Prisma.Event$deviceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$deviceArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -912,7 +770,6 @@ export interface EventFieldRefs {
     readonly name: Prisma.FieldRef<"Event", 'String'>;
     readonly propsJson: Prisma.FieldRef<"Event", 'Json'>;
     readonly userId: Prisma.FieldRef<"Event", 'String'>;
-    readonly deviceDbId: Prisma.FieldRef<"Event", 'String'>;
 }
 /**
  * Event findUnique
@@ -1313,24 +1170,6 @@ export type Event$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
      */
     include?: Prisma.UserInclude<ExtArgs> | null;
     where?: Prisma.UserWhereInput;
-};
-/**
- * Event.device
- */
-export type Event$deviceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Device
-     */
-    select?: Prisma.DeviceSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Device
-     */
-    omit?: Prisma.DeviceOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.DeviceInclude<ExtArgs> | null;
-    where?: Prisma.DeviceWhereInput;
 };
 /**
  * Event without action

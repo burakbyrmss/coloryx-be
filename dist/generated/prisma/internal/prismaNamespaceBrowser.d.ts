@@ -27,8 +27,6 @@ export declare const JsonNull: import("@prisma/client-runtime-utils").JsonNullCl
 export declare const AnyNull: import("@prisma/client-runtime-utils").AnyNullClass;
 export declare const ModelName: {
     readonly User: "User";
-    readonly AuthIdentity: "AuthIdentity";
-    readonly Device: "Device";
     readonly ScoreRun: "ScoreRun";
     readonly LeaderboardEntry: "LeaderboardEntry";
     readonly CloudSave: "CloudSave";
@@ -46,27 +44,11 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
     readonly createdAt: "createdAt";
+    readonly lastSeenAt: "lastSeenAt";
     readonly updatedAt: "updatedAt";
+    readonly platform: "platform";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
-export declare const AuthIdentityScalarFieldEnum: {
-    readonly id: "id";
-    readonly createdAt: "createdAt";
-    readonly provider: "provider";
-    readonly providerUserId: "providerUserId";
-    readonly email: "email";
-    readonly userId: "userId";
-};
-export type AuthIdentityScalarFieldEnum = (typeof AuthIdentityScalarFieldEnum)[keyof typeof AuthIdentityScalarFieldEnum];
-export declare const DeviceScalarFieldEnum: {
-    readonly id: "id";
-    readonly createdAt: "createdAt";
-    readonly lastSeenAt: "lastSeenAt";
-    readonly deviceId: "deviceId";
-    readonly platform: "platform";
-    readonly userId: "userId";
-};
-export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum];
 export declare const ScoreRunScalarFieldEnum: {
     readonly id: "id";
     readonly createdAt: "createdAt";
@@ -98,7 +80,6 @@ export declare const RefreshTokenScalarFieldEnum: {
     readonly jti: "jti";
     readonly expiresAt: "expiresAt";
     readonly revokedAt: "revokedAt";
-    readonly deviceId: "deviceId";
     readonly userId: "userId";
 };
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum];
@@ -108,7 +89,6 @@ export declare const EventScalarFieldEnum: {
     readonly name: "name";
     readonly propsJson: "propsJson";
     readonly userId: "userId";
-    readonly deviceDbId: "deviceDbId";
 };
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum];
 export declare const SortOrder: {
@@ -130,15 +110,15 @@ export declare const QueryMode: {
     readonly insensitive: "insensitive";
 };
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
-export declare const NullsOrder: {
-    readonly first: "first";
-    readonly last: "last";
-};
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 export declare const JsonNullValueFilter: {
     readonly DbNull: import("@prisma/client-runtime-utils").DbNullClass;
     readonly JsonNull: import("@prisma/client-runtime-utils").JsonNullClass;
     readonly AnyNull: import("@prisma/client-runtime-utils").AnyNullClass;
 };
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
+export declare const NullsOrder: {
+    readonly first: "first";
+    readonly last: "last";
+};
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 //# sourceMappingURL=prismaNamespaceBrowser.d.ts.map

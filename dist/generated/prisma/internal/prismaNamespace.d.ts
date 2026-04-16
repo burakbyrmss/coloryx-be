@@ -232,8 +232,6 @@ export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>;
 type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>;
 export declare const ModelName: {
     readonly User: "User";
-    readonly AuthIdentity: "AuthIdentity";
-    readonly Device: "Device";
     readonly ScoreRun: "ScoreRun";
     readonly LeaderboardEntry: "LeaderboardEntry";
     readonly CloudSave: "CloudSave";
@@ -251,7 +249,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "authIdentity" | "device" | "scoreRun" | "leaderboardEntry" | "cloudSave" | "refreshToken" | "event";
+        modelProps: "user" | "scoreRun" | "leaderboardEntry" | "cloudSave" | "refreshToken" | "event";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -326,154 +324,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 count: {
                     args: Prisma.UserCountArgs<ExtArgs>;
                     result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number;
-                };
-            };
-        };
-        AuthIdentity: {
-            payload: Prisma.$AuthIdentityPayload<ExtArgs>;
-            fields: Prisma.AuthIdentityFieldRefs;
-            operations: {
-                findUnique: {
-                    args: Prisma.AuthIdentityFindUniqueArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload> | null;
-                };
-                findUniqueOrThrow: {
-                    args: Prisma.AuthIdentityFindUniqueOrThrowArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                findFirst: {
-                    args: Prisma.AuthIdentityFindFirstArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload> | null;
-                };
-                findFirstOrThrow: {
-                    args: Prisma.AuthIdentityFindFirstOrThrowArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                findMany: {
-                    args: Prisma.AuthIdentityFindManyArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>[];
-                };
-                create: {
-                    args: Prisma.AuthIdentityCreateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                createMany: {
-                    args: Prisma.AuthIdentityCreateManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                createManyAndReturn: {
-                    args: Prisma.AuthIdentityCreateManyAndReturnArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>[];
-                };
-                delete: {
-                    args: Prisma.AuthIdentityDeleteArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                update: {
-                    args: Prisma.AuthIdentityUpdateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                deleteMany: {
-                    args: Prisma.AuthIdentityDeleteManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                updateMany: {
-                    args: Prisma.AuthIdentityUpdateManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                updateManyAndReturn: {
-                    args: Prisma.AuthIdentityUpdateManyAndReturnArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>[];
-                };
-                upsert: {
-                    args: Prisma.AuthIdentityUpsertArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthIdentityPayload>;
-                };
-                aggregate: {
-                    args: Prisma.AuthIdentityAggregateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.AggregateAuthIdentity>;
-                };
-                groupBy: {
-                    args: Prisma.AuthIdentityGroupByArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.AuthIdentityGroupByOutputType>[];
-                };
-                count: {
-                    args: Prisma.AuthIdentityCountArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.AuthIdentityCountAggregateOutputType> | number;
-                };
-            };
-        };
-        Device: {
-            payload: Prisma.$DevicePayload<ExtArgs>;
-            fields: Prisma.DeviceFieldRefs;
-            operations: {
-                findUnique: {
-                    args: Prisma.DeviceFindUniqueArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload> | null;
-                };
-                findUniqueOrThrow: {
-                    args: Prisma.DeviceFindUniqueOrThrowArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                findFirst: {
-                    args: Prisma.DeviceFindFirstArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload> | null;
-                };
-                findFirstOrThrow: {
-                    args: Prisma.DeviceFindFirstOrThrowArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                findMany: {
-                    args: Prisma.DeviceFindManyArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[];
-                };
-                create: {
-                    args: Prisma.DeviceCreateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                createMany: {
-                    args: Prisma.DeviceCreateManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                createManyAndReturn: {
-                    args: Prisma.DeviceCreateManyAndReturnArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[];
-                };
-                delete: {
-                    args: Prisma.DeviceDeleteArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                update: {
-                    args: Prisma.DeviceUpdateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                deleteMany: {
-                    args: Prisma.DeviceDeleteManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                updateMany: {
-                    args: Prisma.DeviceUpdateManyArgs<ExtArgs>;
-                    result: BatchPayload;
-                };
-                updateManyAndReturn: {
-                    args: Prisma.DeviceUpdateManyAndReturnArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[];
-                };
-                upsert: {
-                    args: Prisma.DeviceUpsertArgs<ExtArgs>;
-                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>;
-                };
-                aggregate: {
-                    args: Prisma.DeviceAggregateArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.AggregateDevice>;
-                };
-                groupBy: {
-                    args: Prisma.DeviceGroupByArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.DeviceGroupByOutputType>[];
-                };
-                count: {
-                    args: Prisma.DeviceCountArgs<ExtArgs>;
-                    result: runtime.Types.Utils.Optional<Prisma.DeviceCountAggregateOutputType> | number;
                 };
             };
         };
@@ -884,27 +734,11 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
     readonly createdAt: "createdAt";
+    readonly lastSeenAt: "lastSeenAt";
     readonly updatedAt: "updatedAt";
+    readonly platform: "platform";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
-export declare const AuthIdentityScalarFieldEnum: {
-    readonly id: "id";
-    readonly createdAt: "createdAt";
-    readonly provider: "provider";
-    readonly providerUserId: "providerUserId";
-    readonly email: "email";
-    readonly userId: "userId";
-};
-export type AuthIdentityScalarFieldEnum = (typeof AuthIdentityScalarFieldEnum)[keyof typeof AuthIdentityScalarFieldEnum];
-export declare const DeviceScalarFieldEnum: {
-    readonly id: "id";
-    readonly createdAt: "createdAt";
-    readonly lastSeenAt: "lastSeenAt";
-    readonly deviceId: "deviceId";
-    readonly platform: "platform";
-    readonly userId: "userId";
-};
-export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum];
 export declare const ScoreRunScalarFieldEnum: {
     readonly id: "id";
     readonly createdAt: "createdAt";
@@ -936,7 +770,6 @@ export declare const RefreshTokenScalarFieldEnum: {
     readonly jti: "jti";
     readonly expiresAt: "expiresAt";
     readonly revokedAt: "revokedAt";
-    readonly deviceId: "deviceId";
     readonly userId: "userId";
 };
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum];
@@ -946,7 +779,6 @@ export declare const EventScalarFieldEnum: {
     readonly name: "name";
     readonly propsJson: "propsJson";
     readonly userId: "userId";
-    readonly deviceDbId: "deviceDbId";
 };
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum];
 export declare const SortOrder: {
@@ -968,17 +800,17 @@ export declare const QueryMode: {
     readonly insensitive: "insensitive";
 };
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
-export declare const NullsOrder: {
-    readonly first: "first";
-    readonly last: "last";
-};
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 export declare const JsonNullValueFilter: {
     readonly DbNull: runtime.DbNullClass;
     readonly JsonNull: runtime.JsonNullClass;
     readonly AnyNull: runtime.AnyNullClass;
 };
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
+export declare const NullsOrder: {
+    readonly first: "first";
+    readonly last: "last";
+};
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 /**
  * Field references
  */
@@ -998,14 +830,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>;
-/**
- * Reference to a field of type 'AuthProvider'
- */
-export type EnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider'>;
-/**
- * Reference to a field of type 'AuthProvider[]'
- */
-export type ListEnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider[]'>;
 /**
  * Reference to a field of type 'GameMode'
  */
@@ -1133,8 +957,6 @@ export type PrismaClientOptions = ({
 };
 export type GlobalOmitConfig = {
     user?: Prisma.UserOmit;
-    authIdentity?: Prisma.AuthIdentityOmit;
-    device?: Prisma.DeviceOmit;
     scoreRun?: Prisma.ScoreRunOmit;
     leaderboardEntry?: Prisma.LeaderboardEntryOmit;
     cloudSave?: Prisma.CloudSaveOmit;

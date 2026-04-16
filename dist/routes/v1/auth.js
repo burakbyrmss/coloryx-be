@@ -24,27 +24,14 @@ export const authRoutes = async (app) => {
         },
     }, async (request) => {
         const { deviceId, platform } = request.body;
-        // Idempotent: same deviceId returns same user association.
-        const device = await prisma.device.upsert({
-            where: { deviceId },
+        // Idempotent: same deviceId returns the same user (users are keyed by deviceId).
+        const user = await prisma.user.upsert({
+            where: { id: deviceId },
             update: { platform, lastSeenAt: new Date() },
-            create: { deviceId, platform },
-            select: { id: true, deviceId: true, userId: true },
+            create: { id: deviceId, platform },
+            select: { id: true },
         });
-        const userId = device.userId ??
-            (await prisma.user.create({
-                data: {
-                    devices: { connect: { deviceId } },
-                },
-                select: { id: true },
-            })).id;
-        if (!device.userId) {
-            await prisma.device.update({
-                where: { deviceId },
-                data: { userId },
-                select: { id: true },
-            });
-        }
+        const userId = user.id;
         const refreshJti = crypto.randomUUID();
         const refreshExpiresAt = nowPlusDays(30);
         await prisma.refreshToken.create({
@@ -52,11 +39,10 @@ export const authRoutes = async (app) => {
                 jti: refreshJti,
                 expiresAt: refreshExpiresAt,
                 userId,
-                deviceId,
             },
         });
-        const accessToken = await app.jwt.sign({ sub: userId, did: deviceId, typ: "access", jti: crypto.randomUUID() }, accessTokenOptions());
-        const refreshToken = await app.jwt.sign({ sub: userId, did: deviceId, typ: "refresh", jti: refreshJti }, refreshTokenOptions());
+        const accessToken = await app.jwt.sign({ sub: userId, typ: "access", jti: crypto.randomUUID() }, accessTokenOptions());
+        const refreshToken = await app.jwt.sign({ sub: userId, typ: "refresh", jti: refreshJti }, refreshTokenOptions());
         return { userId, deviceId, accessToken, refreshToken };
     });
     app.post("/refresh", {
@@ -86,7 +72,7 @@ export const authRoutes = async (app) => {
         }
         const tokenRow = await prisma.refreshToken.findUnique({
             where: { jti: payload.jti },
-            select: { revokedAt: true, expiresAt: true, userId: true, deviceId: true },
+            select: { revokedAt: true, expiresAt: true, userId: true },
         });
         if (!tokenRow)
             return sendError(reply, 401, "UNAUTHORIZED", "Refresh token not found");
@@ -94,7 +80,7 @@ export const authRoutes = async (app) => {
             return sendError(reply, 401, "UNAUTHORIZED", "Refresh token revoked");
         if (tokenRow.expiresAt.getTime() < Date.now())
             return sendError(reply, 401, "UNAUTHORIZED", "Refresh token expired");
-        if (tokenRow.userId !== payload.sub || tokenRow.deviceId !== payload.did) {
+        if (tokenRow.userId !== payload.sub) {
             return sendError(reply, 401, "UNAUTHORIZED", "Refresh token mismatch");
         }
         // Rotate: revoke old token and issue a new one.
@@ -105,10 +91,10 @@ export const authRoutes = async (app) => {
         const newJti = crypto.randomUUID();
         const newExpiresAt = nowPlusDays(30);
         await prisma.refreshToken.create({
-            data: { jti: newJti, expiresAt: newExpiresAt, userId: payload.sub, deviceId: payload.did },
+            data: { jti: newJti, expiresAt: newExpiresAt, userId: payload.sub },
         });
-        const accessToken = await app.jwt.sign({ sub: payload.sub, did: payload.did, typ: "access", jti: crypto.randomUUID() }, accessTokenOptions());
-        const newRefreshToken = await app.jwt.sign({ sub: payload.sub, did: payload.did, typ: "refresh", jti: newJti }, refreshTokenOptions());
+        const accessToken = await app.jwt.sign({ sub: payload.sub, typ: "access", jti: crypto.randomUUID() }, accessTokenOptions());
+        const newRefreshToken = await app.jwt.sign({ sub: payload.sub, typ: "refresh", jti: newJti }, refreshTokenOptions());
         return { accessToken, refreshToken: newRefreshToken };
     });
     app.post("/logout", {
@@ -137,23 +123,6 @@ export const authRoutes = async (app) => {
             data: { revokedAt: new Date() },
         });
         return { ok: true };
-    });
-    // Optional later: account upgrade/linking to a real identity provider.
-    app.post("/upgrade", {
-        preHandler: app.authenticate,
-        schema: {
-            summary: "Upgrade anonymous account by linking an identity (stub)",
-            body: Type.Object({
-                provider: Type.Union([Type.Literal("APPLE"), Type.Literal("GOOGLE"), Type.Literal("EMAIL")]),
-                providerUserId: Type.String(),
-                email: Type.Optional(Type.String()),
-            }),
-            response: {
-                501: Type.Object({ error: Type.Any() }),
-            },
-        },
-    }, async (_request, reply) => {
-        return sendError(reply, 501, "BAD_REQUEST", "Not implemented yet");
     });
 };
 //# sourceMappingURL=auth.js.map

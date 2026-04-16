@@ -17,55 +17,21 @@ enum GameMode {
   REMEMBER_COLOR
 }
 
-enum AuthProvider {
-  APPLE
-  GOOGLE
-  EMAIL
-}
-
 model User {
-  id        String   @id @default(uuid())
+  // Users are identified by their deviceId (no auth providers).
+  id String @id
+
   createdAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  identities         AuthIdentity[]
-  devices            Device[]
+  platform String
+
   runs               ScoreRun[]
   leaderboardEntries LeaderboardEntry[]
   cloudSave          CloudSave?
   refreshTokens      RefreshToken[]
   events             Event[]
-}
-
-model AuthIdentity {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-
-  provider       AuthProvider
-  providerUserId String
-  email          String?
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-
-  @@unique([provider, providerUserId])
-  @@index([userId])
-}
-
-model Device {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  lastSeenAt DateTime @default(now())
-
-  deviceId String @unique
-  platform String
-
-  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-  userId String?
-
-  events Event[]
-
-  @@index([userId])
 }
 
 model ScoreRun {
@@ -117,12 +83,10 @@ model RefreshToken {
   expiresAt DateTime
   revokedAt DateTime?
 
-  deviceId String
-
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  @@index([userId, deviceId])
+  @@index([userId])
   @@index([expiresAt])
 }
 
@@ -135,9 +99,6 @@ model Event {
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId String?
-
-  device     Device? @relation(fields: [deviceDbId], references: [id], onDelete: SetNull)
-  deviceDbId String?
 
   @@index([name, createdAt])
   @@index([createdAt])

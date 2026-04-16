@@ -19,8 +19,6 @@ RUN npm run build
 
 FROM node:22-bookworm-slim AS runtime
 
-ENV NODE_ENV=production
-
 WORKDIR /app
 
 COPY package.json package-lock.json ./

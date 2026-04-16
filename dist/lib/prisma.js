@@ -5,9 +5,8 @@ import { env } from "./config.js";
 export const prisma = globalThis.__prisma ??
     new PrismaClient({
         adapter: new PrismaPg(new Pool({
-            connectionString: env.DATABASE_URL,
+            connectionString: env.databaseUrl,
         })),
     });
-if (process.env.NODE_ENV !== "production")
-    globalThis.__prisma = prisma;
+globalThis.__prisma = prisma;
 //# sourceMappingURL=prisma.js.map

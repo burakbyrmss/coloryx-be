@@ -9,7 +9,7 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient({
-   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   *   adapter: new PrismaPg({ connectionString: "<postgres-connection-string>" })
    * })
    * // Fetch zero or more Users
    * const users = await prisma.user.findMany()
@@ -28,7 +28,7 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient({
- *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ *   adapter: new PrismaPg({ connectionString: "<postgres-connection-string>" })
  * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()
@@ -124,28 +124,6 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
   * ```
   */
     get user(): Prisma.UserDelegate<ExtArgs, {
-        omit: OmitOpts;
-    }>;
-    /**
-     * `prisma.authIdentity`: Exposes CRUD operations for the **AuthIdentity** model.
-      * Example usage:
-      * ```ts
-      * // Fetch zero or more AuthIdentities
-      * const authIdentities = await prisma.authIdentity.findMany()
-      * ```
-      */
-    get authIdentity(): Prisma.AuthIdentityDelegate<ExtArgs, {
-        omit: OmitOpts;
-    }>;
-    /**
-     * `prisma.device`: Exposes CRUD operations for the **Device** model.
-      * Example usage:
-      * ```ts
-      * // Fetch zero or more Devices
-      * const devices = await prisma.device.findMany()
-      * ```
-      */
-    get device(): Prisma.DeviceDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**

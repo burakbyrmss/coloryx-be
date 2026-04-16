@@ -40,8 +40,6 @@ export const JsonNull = runtime.JsonNull;
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
     User: 'User',
-    AuthIdentity: 'AuthIdentity',
-    Device: 'Device',
     ScoreRun: 'ScoreRun',
     LeaderboardEntry: 'LeaderboardEntry',
     CloudSave: 'CloudSave',
@@ -60,23 +58,9 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export const UserScalarFieldEnum = {
     id: 'id',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-};
-export const AuthIdentityScalarFieldEnum = {
-    id: 'id',
-    createdAt: 'createdAt',
-    provider: 'provider',
-    providerUserId: 'providerUserId',
-    email: 'email',
-    userId: 'userId'
-};
-export const DeviceScalarFieldEnum = {
-    id: 'id',
-    createdAt: 'createdAt',
     lastSeenAt: 'lastSeenAt',
-    deviceId: 'deviceId',
-    platform: 'platform',
-    userId: 'userId'
+    updatedAt: 'updatedAt',
+    platform: 'platform'
 };
 export const ScoreRunScalarFieldEnum = {
     id: 'id',
@@ -106,7 +90,6 @@ export const RefreshTokenScalarFieldEnum = {
     jti: 'jti',
     expiresAt: 'expiresAt',
     revokedAt: 'revokedAt',
-    deviceId: 'deviceId',
     userId: 'userId'
 };
 export const EventScalarFieldEnum = {
@@ -114,8 +97,7 @@ export const EventScalarFieldEnum = {
     createdAt: 'createdAt',
     name: 'name',
     propsJson: 'propsJson',
-    userId: 'userId',
-    deviceDbId: 'deviceDbId'
+    userId: 'userId'
 };
 export const SortOrder = {
     asc: 'asc',
@@ -132,13 +114,13 @@ export const QueryMode = {
     default: 'default',
     insensitive: 'insensitive'
 };
-export const NullsOrder = {
-    first: 'first',
-    last: 'last'
-};
 export const JsonNullValueFilter = {
     DbNull: DbNull,
     JsonNull: JsonNull,
     AnyNull: AnyNull
+};
+export const NullsOrder = {
+    first: 'first',
+    last: 'last'
 };
 //# sourceMappingURL=prismaNamespaceBrowser.js.map

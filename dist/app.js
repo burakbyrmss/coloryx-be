@@ -10,15 +10,7 @@ import { sendError } from "./lib/errors.js";
 import { routes } from "./routes/index.js";
 export async function buildApp() {
     const app = Fastify({
-        logger: env.NODE_ENV === "development"
-            ? {
-                level: "debug",
-                transport: {
-                    target: "pino-pretty",
-                    options: { colorize: true, translateTime: "SYS:standard" },
-                },
-            }
-            : true,
+        logger: true,
         genReqId: () => crypto.randomUUID(),
     });
     await app.register(helmet);
@@ -35,13 +27,15 @@ export async function buildApp() {
     await app.register(swaggerUi, { routePrefix: "/docs" });
     await app.register(authPlugin);
     app.setErrorHandler((err, _req, reply) => {
-        if (env.NODE_ENV === "development") {
-            app.log.error(err);
-        }
+        app.log.error(err);
         return sendError(reply, 500, "INTERNAL", "Internal Server Error");
     });
     await app.register(routes);
     app.get("/health", async () => ({ ok: true }));
+    app.get("/ping", async () => ({
+        ok: true,
+        now: new Date().toISOString(),
+    }));
     return app;
 }
 //# sourceMappingURL=app.js.map

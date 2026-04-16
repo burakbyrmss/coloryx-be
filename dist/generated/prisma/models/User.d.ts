@@ -13,33 +13,45 @@ export type AggregateUser = {
 export type UserMinAggregateOutputType = {
     id: string | null;
     createdAt: Date | null;
+    lastSeenAt: Date | null;
     updatedAt: Date | null;
+    platform: string | null;
 };
 export type UserMaxAggregateOutputType = {
     id: string | null;
     createdAt: Date | null;
+    lastSeenAt: Date | null;
     updatedAt: Date | null;
+    platform: string | null;
 };
 export type UserCountAggregateOutputType = {
     id: number;
     createdAt: number;
+    lastSeenAt: number;
     updatedAt: number;
+    platform: number;
     _all: number;
 };
 export type UserMinAggregateInputType = {
     id?: true;
     createdAt?: true;
+    lastSeenAt?: true;
     updatedAt?: true;
+    platform?: true;
 };
 export type UserMaxAggregateInputType = {
     id?: true;
     createdAt?: true;
+    lastSeenAt?: true;
     updatedAt?: true;
+    platform?: true;
 };
 export type UserCountAggregateInputType = {
     id?: true;
     createdAt?: true;
+    lastSeenAt?: true;
     updatedAt?: true;
+    platform?: true;
     _all?: true;
 };
 export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -107,7 +119,9 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UserGroupByOutputType = {
     id: string;
     createdAt: Date;
+    lastSeenAt: Date;
     updatedAt: Date;
+    platform: string;
     _count: UserCountAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
     _max: UserMaxAggregateOutputType | null;
@@ -121,9 +135,9 @@ export type UserWhereInput = {
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     id?: Prisma.StringFilter<"User"> | string;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    lastSeenAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    identities?: Prisma.AuthIdentityListRelationFilter;
-    devices?: Prisma.DeviceListRelationFilter;
+    platform?: Prisma.StringFilter<"User"> | string;
     runs?: Prisma.ScoreRunListRelationFilter;
     leaderboardEntries?: Prisma.LeaderboardEntryListRelationFilter;
     cloudSave?: Prisma.XOR<Prisma.CloudSaveNullableScalarRelationFilter, Prisma.CloudSaveWhereInput> | null;
@@ -133,9 +147,9 @@ export type UserWhereInput = {
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    lastSeenAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    identities?: Prisma.AuthIdentityOrderByRelationAggregateInput;
-    devices?: Prisma.DeviceOrderByRelationAggregateInput;
+    platform?: Prisma.SortOrder;
     runs?: Prisma.ScoreRunOrderByRelationAggregateInput;
     leaderboardEntries?: Prisma.LeaderboardEntryOrderByRelationAggregateInput;
     cloudSave?: Prisma.CloudSaveOrderByWithRelationInput;
@@ -148,9 +162,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    lastSeenAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    identities?: Prisma.AuthIdentityListRelationFilter;
-    devices?: Prisma.DeviceListRelationFilter;
+    platform?: Prisma.StringFilter<"User"> | string;
     runs?: Prisma.ScoreRunListRelationFilter;
     leaderboardEntries?: Prisma.LeaderboardEntryListRelationFilter;
     cloudSave?: Prisma.XOR<Prisma.CloudSaveNullableScalarRelationFilter, Prisma.CloudSaveWhereInput> | null;
@@ -160,7 +174,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    lastSeenAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    platform?: Prisma.SortOrder;
     _count?: Prisma.UserCountOrderByAggregateInput;
     _max?: Prisma.UserMaxOrderByAggregateInput;
     _min?: Prisma.UserMinOrderByAggregateInput;
@@ -171,14 +187,16 @@ export type UserScalarWhereWithAggregatesInput = {
     NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"User"> | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
+    lastSeenAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
+    platform?: Prisma.StringWithAggregatesFilter<"User"> | string;
 };
 export type UserCreateInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
@@ -186,11 +204,11 @@ export type UserCreateInput = {
     events?: Prisma.EventCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
@@ -200,9 +218,9 @@ export type UserUncheckedCreateInput = {
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
@@ -212,9 +230,9 @@ export type UserUpdateInput = {
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
@@ -222,34 +240,46 @@ export type UserUncheckedUpdateInput = {
     events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateManyInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
+    platform: string;
 };
 export type UserUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type UserUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type UserCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    lastSeenAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    platform?: Prisma.SortOrder;
 };
 export type UserMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    lastSeenAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    platform?: Prisma.SortOrder;
 };
 export type UserMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    lastSeenAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+    platform?: Prisma.SortOrder;
 };
 export type UserScalarRelationFilter = {
     is?: Prisma.UserWhereInput;
@@ -264,32 +294,6 @@ export type StringFieldUpdateOperationsInput = {
 };
 export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string;
-};
-export type UserCreateNestedOneWithoutIdentitiesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutIdentitiesInput, Prisma.UserUncheckedCreateWithoutIdentitiesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutIdentitiesInput;
-    connect?: Prisma.UserWhereUniqueInput;
-};
-export type UserUpdateOneRequiredWithoutIdentitiesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutIdentitiesInput, Prisma.UserUncheckedCreateWithoutIdentitiesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutIdentitiesInput;
-    upsert?: Prisma.UserUpsertWithoutIdentitiesInput;
-    connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutIdentitiesInput, Prisma.UserUpdateWithoutIdentitiesInput>, Prisma.UserUncheckedUpdateWithoutIdentitiesInput>;
-};
-export type UserCreateNestedOneWithoutDevicesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutDevicesInput, Prisma.UserUncheckedCreateWithoutDevicesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutDevicesInput;
-    connect?: Prisma.UserWhereUniqueInput;
-};
-export type UserUpdateOneWithoutDevicesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutDevicesInput, Prisma.UserUncheckedCreateWithoutDevicesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutDevicesInput;
-    upsert?: Prisma.UserUpsertWithoutDevicesInput;
-    disconnect?: Prisma.UserWhereInput | boolean;
-    delete?: Prisma.UserWhereInput | boolean;
-    connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDevicesInput, Prisma.UserUpdateWithoutDevicesInput>, Prisma.UserUncheckedUpdateWithoutDevicesInput>;
 };
 export type UserCreateNestedOneWithoutRunsInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutRunsInput, Prisma.UserUncheckedCreateWithoutRunsInput>;
@@ -353,137 +357,23 @@ export type UserUpdateOneWithoutEventsNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEventsInput, Prisma.UserUpdateWithoutEventsInput>, Prisma.UserUncheckedUpdateWithoutEventsInput>;
 };
-export type UserCreateWithoutIdentitiesInput = {
-    id?: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
-    runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
-    cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
-    refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
-    events?: Prisma.EventCreateNestedManyWithoutUserInput;
-};
-export type UserUncheckedCreateWithoutIdentitiesInput = {
-    id?: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
-    runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
-    cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
-    refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
-    events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput;
-};
-export type UserCreateOrConnectWithoutIdentitiesInput = {
-    where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutIdentitiesInput, Prisma.UserUncheckedCreateWithoutIdentitiesInput>;
-};
-export type UserUpsertWithoutIdentitiesInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutIdentitiesInput, Prisma.UserUncheckedUpdateWithoutIdentitiesInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutIdentitiesInput, Prisma.UserUncheckedCreateWithoutIdentitiesInput>;
-    where?: Prisma.UserWhereInput;
-};
-export type UserUpdateToOneWithWhereWithoutIdentitiesInput = {
-    where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutIdentitiesInput, Prisma.UserUncheckedUpdateWithoutIdentitiesInput>;
-};
-export type UserUpdateWithoutIdentitiesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
-    runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
-    cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
-    refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
-    events?: Prisma.EventUpdateManyWithoutUserNestedInput;
-};
-export type UserUncheckedUpdateWithoutIdentitiesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
-    runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
-    cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
-    refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
-    events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
-};
-export type UserCreateWithoutDevicesInput = {
-    id?: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
-    cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
-    refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
-    events?: Prisma.EventCreateNestedManyWithoutUserInput;
-};
-export type UserUncheckedCreateWithoutDevicesInput = {
-    id?: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
-    cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
-    refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
-    events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput;
-};
-export type UserCreateOrConnectWithoutDevicesInput = {
-    where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutDevicesInput, Prisma.UserUncheckedCreateWithoutDevicesInput>;
-};
-export type UserUpsertWithoutDevicesInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutDevicesInput, Prisma.UserUncheckedUpdateWithoutDevicesInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutDevicesInput, Prisma.UserUncheckedCreateWithoutDevicesInput>;
-    where?: Prisma.UserWhereInput;
-};
-export type UserUpdateToOneWithWhereWithoutDevicesInput = {
-    where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutDevicesInput, Prisma.UserUncheckedUpdateWithoutDevicesInput>;
-};
-export type UserUpdateWithoutDevicesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
-    cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
-    refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
-    events?: Prisma.EventUpdateManyWithoutUserNestedInput;
-};
-export type UserUncheckedUpdateWithoutDevicesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
-    leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
-    cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
-    refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
-    events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
-};
 export type UserCreateWithoutRunsInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
     events?: Prisma.EventCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutRunsInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
@@ -505,9 +395,9 @@ export type UserUpdateToOneWithWhereWithoutRunsInput = {
 export type UserUpdateWithoutRunsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
@@ -516,31 +406,31 @@ export type UserUpdateWithoutRunsInput = {
 export type UserUncheckedUpdateWithoutRunsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
     events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutLeaderboardEntriesInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
     events?: Prisma.EventCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutLeaderboardEntriesInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
@@ -562,9 +452,9 @@ export type UserUpdateToOneWithWhereWithoutLeaderboardEntriesInput = {
 export type UserUpdateWithoutLeaderboardEntriesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
@@ -573,31 +463,31 @@ export type UserUpdateWithoutLeaderboardEntriesInput = {
 export type UserUncheckedUpdateWithoutLeaderboardEntriesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
     events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutCloudSaveInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
     events?: Prisma.EventCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutCloudSaveInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
@@ -619,9 +509,9 @@ export type UserUpdateToOneWithWhereWithoutCloudSaveInput = {
 export type UserUpdateWithoutCloudSaveInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
@@ -630,31 +520,31 @@ export type UserUpdateWithoutCloudSaveInput = {
 export type UserUncheckedUpdateWithoutCloudSaveInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
     refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
     events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutRefreshTokensInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
     events?: Prisma.EventCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
@@ -676,9 +566,9 @@ export type UserUpdateToOneWithWhereWithoutRefreshTokensInput = {
 export type UserUpdateWithoutRefreshTokensInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
@@ -687,31 +577,31 @@ export type UserUpdateWithoutRefreshTokensInput = {
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
     events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutEventsInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveCreateNestedOneWithoutUserInput;
     refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutEventsInput = {
-    id?: string;
+    id: string;
     createdAt?: Date | string;
+    lastSeenAt?: Date | string;
     updatedAt?: Date | string;
-    identities?: Prisma.AuthIdentityUncheckedCreateNestedManyWithoutUserInput;
-    devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput;
+    platform: string;
     runs?: Prisma.ScoreRunUncheckedCreateNestedManyWithoutUserInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedCreateNestedManyWithoutUserInput;
     cloudSave?: Prisma.CloudSaveUncheckedCreateNestedOneWithoutUserInput;
@@ -733,9 +623,9 @@ export type UserUpdateToOneWithWhereWithoutEventsInput = {
 export type UserUpdateWithoutEventsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUpdateOneWithoutUserNestedInput;
@@ -744,9 +634,9 @@ export type UserUpdateWithoutEventsInput = {
 export type UserUncheckedUpdateWithoutEventsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    lastSeenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    identities?: Prisma.AuthIdentityUncheckedUpdateManyWithoutUserNestedInput;
-    devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput;
+    platform?: Prisma.StringFieldUpdateOperationsInput | string;
     runs?: Prisma.ScoreRunUncheckedUpdateManyWithoutUserNestedInput;
     leaderboardEntries?: Prisma.LeaderboardEntryUncheckedUpdateManyWithoutUserNestedInput;
     cloudSave?: Prisma.CloudSaveUncheckedUpdateOneWithoutUserNestedInput;
@@ -756,16 +646,12 @@ export type UserUncheckedUpdateWithoutEventsInput = {
  * Count Type UserCountOutputType
  */
 export type UserCountOutputType = {
-    identities: number;
-    devices: number;
     runs: number;
     leaderboardEntries: number;
     refreshTokens: number;
     events: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    identities?: boolean | UserCountOutputTypeCountIdentitiesArgs;
-    devices?: boolean | UserCountOutputTypeCountDevicesArgs;
     runs?: boolean | UserCountOutputTypeCountRunsArgs;
     leaderboardEntries?: boolean | UserCountOutputTypeCountLeaderboardEntriesArgs;
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs;
@@ -779,18 +665,6 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null;
-};
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.AuthIdentityWhereInput;
-};
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.DeviceWhereInput;
 };
 /**
  * UserCountOutputType without action
@@ -819,9 +693,9 @@ export type UserCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Ext
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     createdAt?: boolean;
+    lastSeenAt?: boolean;
     updatedAt?: boolean;
-    identities?: boolean | Prisma.User$identitiesArgs<ExtArgs>;
-    devices?: boolean | Prisma.User$devicesArgs<ExtArgs>;
+    platform?: boolean;
     runs?: boolean | Prisma.User$runsArgs<ExtArgs>;
     leaderboardEntries?: boolean | Prisma.User$leaderboardEntriesArgs<ExtArgs>;
     cloudSave?: boolean | Prisma.User$cloudSaveArgs<ExtArgs>;
@@ -832,22 +706,26 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     createdAt?: boolean;
+    lastSeenAt?: boolean;
     updatedAt?: boolean;
+    platform?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     createdAt?: boolean;
+    lastSeenAt?: boolean;
     updatedAt?: boolean;
+    platform?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectScalar = {
     id?: boolean;
     createdAt?: boolean;
+    lastSeenAt?: boolean;
     updatedAt?: boolean;
+    platform?: boolean;
 };
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>;
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "lastSeenAt" | "updatedAt" | "platform", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    identities?: boolean | Prisma.User$identitiesArgs<ExtArgs>;
-    devices?: boolean | Prisma.User$devicesArgs<ExtArgs>;
     runs?: boolean | Prisma.User$runsArgs<ExtArgs>;
     leaderboardEntries?: boolean | Prisma.User$leaderboardEntriesArgs<ExtArgs>;
     cloudSave?: boolean | Prisma.User$cloudSaveArgs<ExtArgs>;
@@ -860,8 +738,6 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "User";
     objects: {
-        identities: Prisma.$AuthIdentityPayload<ExtArgs>[];
-        devices: Prisma.$DevicePayload<ExtArgs>[];
         runs: Prisma.$ScoreRunPayload<ExtArgs>[];
         leaderboardEntries: Prisma.$LeaderboardEntryPayload<ExtArgs>[];
         cloudSave: Prisma.$CloudSavePayload<ExtArgs> | null;
@@ -871,7 +747,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
         createdAt: Date;
+        lastSeenAt: Date;
         updatedAt: Date;
+        platform: string;
     }, ExtArgs["result"]["user"]>;
     composites: {};
 };
@@ -1201,8 +1079,6 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    identities<T extends Prisma.User$identitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$identitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    devices<T extends Prisma.User$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     runs<T extends Prisma.User$runsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$runsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScoreRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     leaderboardEntries<T extends Prisma.User$leaderboardEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$leaderboardEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaderboardEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     cloudSave<T extends Prisma.User$cloudSaveArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cloudSaveArgs<ExtArgs>>): Prisma.Prisma__CloudSaveClient<runtime.Types.Result.GetResult<Prisma.$CloudSavePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
@@ -1235,7 +1111,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UserFieldRefs {
     readonly id: Prisma.FieldRef<"User", 'String'>;
     readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly lastSeenAt: Prisma.FieldRef<"User", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly platform: Prisma.FieldRef<"User", 'String'>;
 }
 /**
  * User findUnique
@@ -1610,52 +1488,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
      * Limit how many Users to delete.
      */
     limit?: number;
-};
-/**
- * User.identities
- */
-export type User$identitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuthIdentity
-     */
-    select?: Prisma.AuthIdentitySelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthIdentity
-     */
-    omit?: Prisma.AuthIdentityOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.AuthIdentityInclude<ExtArgs> | null;
-    where?: Prisma.AuthIdentityWhereInput;
-    orderBy?: Prisma.AuthIdentityOrderByWithRelationInput | Prisma.AuthIdentityOrderByWithRelationInput[];
-    cursor?: Prisma.AuthIdentityWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.AuthIdentityScalarFieldEnum | Prisma.AuthIdentityScalarFieldEnum[];
-};
-/**
- * User.devices
- */
-export type User$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Device
-     */
-    select?: Prisma.DeviceSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Device
-     */
-    omit?: Prisma.DeviceOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.DeviceInclude<ExtArgs> | null;
-    where?: Prisma.DeviceWhereInput;
-    orderBy?: Prisma.DeviceOrderByWithRelationInput | Prisma.DeviceOrderByWithRelationInput[];
-    cursor?: Prisma.DeviceWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.DeviceScalarFieldEnum | Prisma.DeviceScalarFieldEnum[];
 };
 /**
  * User.runs

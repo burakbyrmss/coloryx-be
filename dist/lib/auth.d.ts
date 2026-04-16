@@ -1,7 +1,6 @@
 import type { FastifyRequest } from "fastify";
 export type AccessTokenPayload = {
     sub: string;
-    did: string;
 };
 export declare function assertAuth(request: FastifyRequest): {
     userId: string;

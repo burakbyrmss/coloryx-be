@@ -25,7 +25,7 @@ export * from "./enums.js";
  * @example
  * ```
  * const prisma = new PrismaClient({
- *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ *   adapter: new PrismaPg({ connectionString: "<postgres-connection-string>" })
  * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()

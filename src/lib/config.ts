@@ -2,11 +2,20 @@ import "dotenv/config";
 import { z } from "zod";
 
 const EnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(3000),
   JWT_SECRET: z.string().min(16),
-  DATABASE_URL: z.string().min(1),
   CORS_ORIGIN: z.string().min(1).default("*"),
+
+  POSTGRES_USER: z.string().min(1),
+  POSTGRES_PASSWORD: z.string().min(1),
+  POSTGRES_HOST: z.string().min(1).default("localhost"),
+  POSTGRES_PORT: z.coerce.number().int().positive().default(5432),
+
+  // Preferred: set POSTGRES_DB explicitly. If omitted, we fall back to POSTGRES_PROD_DB.
+  POSTGRES_DB: z.string().min(1).optional(),
+  POSTGRES_PROD_DB: z.string().min(1).optional(),
+  POSTGRES_TEST_DB: z.string().min(1).optional(),
+  POSTGRES_SCHEMA: z.string().min(1).default("public"),
 });
 
 const parsed = EnvSchema.safeParse(process.env);
@@ -17,5 +26,25 @@ if (!parsed.success) {
   process.exit(1);
 }
 
-export const env = parsed.data;
+function buildPostgresUrl(e: z.infer<typeof EnvSchema>) {
+  const dbName = e.POSTGRES_DB ?? e.POSTGRES_PROD_DB ?? e.POSTGRES_TEST_DB;
+  if (!dbName) {
+    // eslint-disable-next-line no-console
+    console.error(
+      "Missing database name. Set POSTGRES_DB (or POSTGRES_PROD_DB / POSTGRES_TEST_DB).",
+    );
+    process.exit(1);
+  }
+
+  const user = encodeURIComponent(e.POSTGRES_USER);
+  const password = encodeURIComponent(e.POSTGRES_PASSWORD);
+  const schema = encodeURIComponent(e.POSTGRES_SCHEMA);
+
+  return `postgresql://${user}:${password}@${e.POSTGRES_HOST}:${e.POSTGRES_PORT}/${dbName}?schema=${schema}`;
+}
+
+export const env = {
+  ...parsed.data,
+  databaseUrl: buildPostgresUrl(parsed.data),
+};
 

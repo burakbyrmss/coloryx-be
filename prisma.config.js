@@ -2,13 +2,27 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
+function buildPostgresUrl() {
+    const user = process.env["POSTGRES_USER"];
+    const password = process.env["POSTGRES_PASSWORD"];
+    const host = process.env["POSTGRES_HOST"] ?? "localhost";
+    const port = process.env["POSTGRES_PORT"] ?? "5432";
+    const schema = process.env["POSTGRES_SCHEMA"] ?? "public";
+    const db = process.env["POSTGRES_DB"] ??
+        process.env["POSTGRES_PROD_DB"] ??
+        process.env["POSTGRES_TEST_DB"];
+    if (!user || !password || !db) {
+        throw new Error("Missing Postgres env vars. Required: POSTGRES_USER, POSTGRES_PASSWORD, and POSTGRES_DB (or POSTGRES_PROD_DB / POSTGRES_TEST_DB).");
+    }
+    return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${db}?schema=${encodeURIComponent(schema)}`;
+}
 export default defineConfig({
     schema: "prisma/schema.prisma",
     migrations: {
         path: "prisma/migrations",
     },
     datasource: {
-        url: process.env["DATABASE_URL"],
+        url: buildPostgresUrl(),
     },
 });
 //# sourceMappingURL=prisma.config.js.map

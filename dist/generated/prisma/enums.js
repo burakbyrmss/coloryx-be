@@ -11,9 +11,4 @@ export const GameMode = {
     ODD_ONE_OUT: 'ODD_ONE_OUT',
     REMEMBER_COLOR: 'REMEMBER_COLOR'
 };
-export const AuthProvider = {
-    APPLE: 'APPLE',
-    GOOGLE: 'GOOGLE',
-    EMAIL: 'EMAIL'
-};
 //# sourceMappingURL=enums.js.map

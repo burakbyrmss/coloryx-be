@@ -12,7 +12,7 @@ export const authPlugin = fp(async (app) => {
             }
             request.auth = {
                 userId: request.user.sub,
-                deviceId: request.user.did,
+                deviceId: request.user.sub,
                 tokenId: request.user.jti,
             };
         }

@@ -5,7 +5,6 @@ declare module "@fastify/jwt" {
   interface FastifyJWT {
     user: {
       sub: string;
-      did: string;
       typ: "access" | "refresh";
       jti: string;
     };

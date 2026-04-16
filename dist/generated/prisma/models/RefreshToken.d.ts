@@ -16,7 +16,6 @@ export type RefreshTokenMinAggregateOutputType = {
     jti: string | null;
     expiresAt: Date | null;
     revokedAt: Date | null;
-    deviceId: string | null;
     userId: string | null;
 };
 export type RefreshTokenMaxAggregateOutputType = {
@@ -25,7 +24,6 @@ export type RefreshTokenMaxAggregateOutputType = {
     jti: string | null;
     expiresAt: Date | null;
     revokedAt: Date | null;
-    deviceId: string | null;
     userId: string | null;
 };
 export type RefreshTokenCountAggregateOutputType = {
@@ -34,7 +32,6 @@ export type RefreshTokenCountAggregateOutputType = {
     jti: number;
     expiresAt: number;
     revokedAt: number;
-    deviceId: number;
     userId: number;
     _all: number;
 };
@@ -44,7 +41,6 @@ export type RefreshTokenMinAggregateInputType = {
     jti?: true;
     expiresAt?: true;
     revokedAt?: true;
-    deviceId?: true;
     userId?: true;
 };
 export type RefreshTokenMaxAggregateInputType = {
@@ -53,7 +49,6 @@ export type RefreshTokenMaxAggregateInputType = {
     jti?: true;
     expiresAt?: true;
     revokedAt?: true;
-    deviceId?: true;
     userId?: true;
 };
 export type RefreshTokenCountAggregateInputType = {
@@ -62,7 +57,6 @@ export type RefreshTokenCountAggregateInputType = {
     jti?: true;
     expiresAt?: true;
     revokedAt?: true;
-    deviceId?: true;
     userId?: true;
     _all?: true;
 };
@@ -134,7 +128,6 @@ export type RefreshTokenGroupByOutputType = {
     jti: string;
     expiresAt: Date;
     revokedAt: Date | null;
-    deviceId: string;
     userId: string;
     _count: RefreshTokenCountAggregateOutputType | null;
     _min: RefreshTokenMinAggregateOutputType | null;
@@ -152,7 +145,6 @@ export type RefreshTokenWhereInput = {
     jti?: Prisma.StringFilter<"RefreshToken"> | string;
     expiresAt?: Prisma.DateTimeFilter<"RefreshToken"> | Date | string;
     revokedAt?: Prisma.DateTimeNullableFilter<"RefreshToken"> | Date | string | null;
-    deviceId?: Prisma.StringFilter<"RefreshToken"> | string;
     userId?: Prisma.StringFilter<"RefreshToken"> | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 };
@@ -162,7 +154,6 @@ export type RefreshTokenOrderByWithRelationInput = {
     jti?: Prisma.SortOrder;
     expiresAt?: Prisma.SortOrder;
     revokedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-    deviceId?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
 };
@@ -175,7 +166,6 @@ export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
     createdAt?: Prisma.DateTimeFilter<"RefreshToken"> | Date | string;
     expiresAt?: Prisma.DateTimeFilter<"RefreshToken"> | Date | string;
     revokedAt?: Prisma.DateTimeNullableFilter<"RefreshToken"> | Date | string | null;
-    deviceId?: Prisma.StringFilter<"RefreshToken"> | string;
     userId?: Prisma.StringFilter<"RefreshToken"> | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 }, "id" | "jti">;
@@ -185,7 +175,6 @@ export type RefreshTokenOrderByWithAggregationInput = {
     jti?: Prisma.SortOrder;
     expiresAt?: Prisma.SortOrder;
     revokedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-    deviceId?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
     _count?: Prisma.RefreshTokenCountOrderByAggregateInput;
     _max?: Prisma.RefreshTokenMaxOrderByAggregateInput;
@@ -200,7 +189,6 @@ export type RefreshTokenScalarWhereWithAggregatesInput = {
     jti?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string;
     expiresAt?: Prisma.DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string;
     revokedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RefreshToken"> | Date | string | null;
-    deviceId?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string;
     userId?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string;
 };
 export type RefreshTokenCreateInput = {
@@ -209,7 +197,6 @@ export type RefreshTokenCreateInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
     user: Prisma.UserCreateNestedOneWithoutRefreshTokensInput;
 };
 export type RefreshTokenUncheckedCreateInput = {
@@ -218,7 +205,6 @@ export type RefreshTokenUncheckedCreateInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
     userId: string;
 };
 export type RefreshTokenUpdateInput = {
@@ -227,7 +213,6 @@ export type RefreshTokenUpdateInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
     user?: Prisma.UserUpdateOneRequiredWithoutRefreshTokensNestedInput;
 };
 export type RefreshTokenUncheckedUpdateInput = {
@@ -236,7 +221,6 @@ export type RefreshTokenUncheckedUpdateInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenCreateManyInput = {
@@ -245,7 +229,6 @@ export type RefreshTokenCreateManyInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
     userId: string;
 };
 export type RefreshTokenUpdateManyMutationInput = {
@@ -254,7 +237,6 @@ export type RefreshTokenUpdateManyMutationInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -262,7 +244,6 @@ export type RefreshTokenUncheckedUpdateManyInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenListRelationFilter = {
@@ -279,7 +260,6 @@ export type RefreshTokenCountOrderByAggregateInput = {
     jti?: Prisma.SortOrder;
     expiresAt?: Prisma.SortOrder;
     revokedAt?: Prisma.SortOrder;
-    deviceId?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
 };
 export type RefreshTokenMaxOrderByAggregateInput = {
@@ -288,7 +268,6 @@ export type RefreshTokenMaxOrderByAggregateInput = {
     jti?: Prisma.SortOrder;
     expiresAt?: Prisma.SortOrder;
     revokedAt?: Prisma.SortOrder;
-    deviceId?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
 };
 export type RefreshTokenMinOrderByAggregateInput = {
@@ -297,7 +276,6 @@ export type RefreshTokenMinOrderByAggregateInput = {
     jti?: Prisma.SortOrder;
     expiresAt?: Prisma.SortOrder;
     revokedAt?: Prisma.SortOrder;
-    deviceId?: Prisma.SortOrder;
     userId?: Prisma.SortOrder;
 };
 export type RefreshTokenCreateNestedManyWithoutUserInput = {
@@ -347,7 +325,6 @@ export type RefreshTokenCreateWithoutUserInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
 };
 export type RefreshTokenUncheckedCreateWithoutUserInput = {
     id?: string;
@@ -355,7 +332,6 @@ export type RefreshTokenUncheckedCreateWithoutUserInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
 };
 export type RefreshTokenCreateOrConnectWithoutUserInput = {
     where: Prisma.RefreshTokenWhereUniqueInput;
@@ -387,7 +363,6 @@ export type RefreshTokenScalarWhereInput = {
     jti?: Prisma.StringFilter<"RefreshToken"> | string;
     expiresAt?: Prisma.DateTimeFilter<"RefreshToken"> | Date | string;
     revokedAt?: Prisma.DateTimeNullableFilter<"RefreshToken"> | Date | string | null;
-    deviceId?: Prisma.StringFilter<"RefreshToken"> | string;
     userId?: Prisma.StringFilter<"RefreshToken"> | string;
 };
 export type RefreshTokenCreateManyUserInput = {
@@ -396,7 +371,6 @@ export type RefreshTokenCreateManyUserInput = {
     jti: string;
     expiresAt: Date | string;
     revokedAt?: Date | string | null;
-    deviceId: string;
 };
 export type RefreshTokenUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -404,7 +378,6 @@ export type RefreshTokenUpdateWithoutUserInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenUncheckedUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -412,7 +385,6 @@ export type RefreshTokenUncheckedUpdateWithoutUserInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenUncheckedUpdateManyWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -420,7 +392,6 @@ export type RefreshTokenUncheckedUpdateManyWithoutUserInput = {
     jti?: Prisma.StringFieldUpdateOperationsInput | string;
     expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     revokedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    deviceId?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type RefreshTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -428,7 +399,6 @@ export type RefreshTokenSelect<ExtArgs extends runtime.Types.Extensions.Internal
     jti?: boolean;
     expiresAt?: boolean;
     revokedAt?: boolean;
-    deviceId?: boolean;
     userId?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["refreshToken"]>;
@@ -438,7 +408,6 @@ export type RefreshTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
     jti?: boolean;
     expiresAt?: boolean;
     revokedAt?: boolean;
-    deviceId?: boolean;
     userId?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["refreshToken"]>;
@@ -448,7 +417,6 @@ export type RefreshTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
     jti?: boolean;
     expiresAt?: boolean;
     revokedAt?: boolean;
-    deviceId?: boolean;
     userId?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["refreshToken"]>;
@@ -458,10 +426,9 @@ export type RefreshTokenSelectScalar = {
     jti?: boolean;
     expiresAt?: boolean;
     revokedAt?: boolean;
-    deviceId?: boolean;
     userId?: boolean;
 };
-export type RefreshTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "jti" | "expiresAt" | "revokedAt" | "deviceId" | "userId", ExtArgs["result"]["refreshToken"]>;
+export type RefreshTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "jti" | "expiresAt" | "revokedAt" | "userId", ExtArgs["result"]["refreshToken"]>;
 export type RefreshTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
@@ -482,7 +449,6 @@ export type $RefreshTokenPayload<ExtArgs extends runtime.Types.Extensions.Intern
         jti: string;
         expiresAt: Date;
         revokedAt: Date | null;
-        deviceId: string;
         userId: string;
     }, ExtArgs["result"]["refreshToken"]>;
     composites: {};
@@ -844,7 +810,6 @@ export interface RefreshTokenFieldRefs {
     readonly jti: Prisma.FieldRef<"RefreshToken", 'String'>;
     readonly expiresAt: Prisma.FieldRef<"RefreshToken", 'DateTime'>;
     readonly revokedAt: Prisma.FieldRef<"RefreshToken", 'DateTime'>;
-    readonly deviceId: Prisma.FieldRef<"RefreshToken", 'String'>;
     readonly userId: Prisma.FieldRef<"RefreshToken", 'String'>;
 }
 /**
