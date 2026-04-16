@@ -6,6 +6,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY prisma ./prisma
+COPY prisma.config.ts ./
 COPY tsconfig.json ./
 COPY src ./src
 
@@ -23,6 +24,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
 COPY prisma ./prisma
+COPY prisma.config.ts ./
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/src/generated ./src/generated
 
