@@ -1,7 +1,3 @@
-## Production image for coloryx-be
-## - Builds TypeScript -> dist/
-## - Generates Prisma client into src/generated/prisma
-
 FROM node:22-bookworm-slim AS build
 
 WORKDIR /app
@@ -24,10 +20,10 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
+COPY prisma ./prisma
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/src/generated ./src/generated
 
 EXPOSE 3000
 
-CMD ["node", "dist/server.js"]
-
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
