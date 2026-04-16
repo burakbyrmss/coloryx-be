@@ -6,7 +6,7 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { env } from "./lib/config.js";
 import { authPlugin } from "./plugins/authPlugin.js";
-import { sendError } from "./lib/errors.js";
+import { formatErrorForResponse, sendError } from "./lib/errors.js";
 import { routes } from "./routes/index.js";
 
 export async function buildApp() {
@@ -33,7 +33,14 @@ export async function buildApp() {
 
   app.setErrorHandler((err, _req, reply) => {
     app.log.error(err);
-    return sendError(reply, 500, "INTERNAL", "Internal Server Error");
+    return sendError(
+      reply,
+      500,
+      "INTERNAL",
+      "Internal Server Error",
+      undefined,
+      formatErrorForResponse(err),
+    );
   });
 
   await app.register(routes);
