@@ -17,6 +17,8 @@ FROM node:22-bookworm-slim AS runtime
 
 WORKDIR /app
 
+RUN apt-get update -y && apt-get install -y openssl
+
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
