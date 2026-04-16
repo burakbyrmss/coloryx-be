@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum GameMode {
+  ODD_ONE_OUT
+  REMEMBER_COLOR
+}
+
+enum AuthProvider {
+  APPLE
+  GOOGLE
+  EMAIL
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  identities         AuthIdentity[]
+  devices            Device[]
+  runs               ScoreRun[]
+  leaderboardEntries LeaderboardEntry[]
+  cloudSave          CloudSave?
+  refreshTokens      RefreshToken[]
+  events             Event[]
+}
+
+model AuthIdentity {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  provider       AuthProvider
+  providerUserId String
+  email          String?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@unique([provider, providerUserId])
+  @@index([userId])
+}
+
+model Device {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  deviceId String @unique
+  platform String
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  events Event[]
+
+  @@index([userId])
+}
+
+model ScoreRun {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  mode  GameMode
+  score Int
+
+  metaJson Json?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([mode, score, createdAt])
+  @@index([userId, mode, createdAt])
+}
+
+model LeaderboardEntry {
+  id        String   @id @default(uuid())
+  updatedAt DateTime @updatedAt
+
+  mode      GameMode
+  bestScore Int
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@unique([mode, userId])
+  @@index([mode, bestScore])
+}
+
+model CloudSave {
+  id        String   @id @default(uuid())
+  updatedAt DateTime @updatedAt
+
+  version     Int  @default(1)
+  payloadJson Json
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  jti       String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  deviceId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId, deviceId])
+  @@index([expiresAt])
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  name      String
+  propsJson Json?
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  device     Device? @relation(fields: [deviceDbId], references: [id], onDelete: SetNull)
+  deviceDbId String?
+
+  @@index([name, createdAt])
+  @@index([createdAt])
+}
