@@ -13,7 +13,7 @@ export const prisma: PrismaClient =
   new PrismaClient({
     adapter: new PrismaPg(
       new Pool({
-        connectionString: env.databaseUrl,
+        connectionString: process.env.DATABASE_URL || env.databaseUrl,
       }),
     ),
   });
