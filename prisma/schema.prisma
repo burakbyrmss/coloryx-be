@@ -39,7 +39,7 @@ model ScoreRun {
   createdAt DateTime @default(now())
 
   mode  GameMode
-  score Int
+  score Float
 
   metaJson Json?
 
@@ -55,7 +55,7 @@ model LeaderboardEntry {
   updatedAt DateTime @updatedAt
 
   mode      GameMode
-  bestScore Int
+  bestScore Float
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String

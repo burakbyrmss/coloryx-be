@@ -20,7 +20,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
             items: Type.Array(
               Type.Object({
                 userId: Type.String(),
-                bestScore: Type.Integer(),
+                bestScore: Type.Number(),
                 updatedAt: Type.String(),
               }),
             ),
@@ -76,7 +76,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
           200: Type.Object({
             mode: GameModeSchema,
             userId: Type.String(),
-            bestScore: Type.Union([Type.Integer(), Type.Null()]),
+            bestScore: Type.Union([Type.Number(), Type.Null()]),
           }),
         },
       },

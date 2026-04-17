@@ -6,7 +6,7 @@ import { GameModeSchema } from "./schemas.js";
 
 const SubmitScoreBody = Type.Object({
   mode: GameModeSchema,
-  score: Type.Integer({ minimum: 0, maximum: 1_000_000 }),
+  score: Type.Number({ minimum: 0, maximum: 1_000_000 }),
   meta: Type.Optional(Type.Object({}, { additionalProperties: true })),
 });
 
@@ -31,9 +31,11 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
       if (!auth) return sendError(reply, 401, "UNAUTHORIZED", "Unauthorized");
 
       const { mode, score, meta } = request.body as any;
+      const normalizedScore =
+        mode === "REMEMBER_COLOR" ? Number(score.toFixed(1)) : score;
 
       // Mode-specific constraints
-      if (mode === "REMEMBER_COLOR" && (score < 0 || score > 100)) {
+      if (mode === "REMEMBER_COLOR" && (normalizedScore < 0 || normalizedScore > 100)) {
         return sendError(reply, 400, "BAD_REQUEST", "Remember Color score must be 0..100");
       }
 
@@ -41,7 +43,7 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         data: {
           userId: auth.userId,
           mode,
-          score,
+          score: normalizedScore,
           metaJson: meta ?? undefined,
         },
         select: { id: true, createdAt: true },
@@ -52,11 +54,11 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         where: { mode_userId: { mode, userId: auth.userId } },
         select: { bestScore: true },
       });
-      if (!existing || score > existing.bestScore) {
+      if (!existing || normalizedScore > existing.bestScore) {
         await prisma.leaderboardEntry.upsert({
           where: { mode_userId: { mode, userId: auth.userId } },
-          create: { mode, userId: auth.userId, bestScore: score },
-          update: { bestScore: score },
+          create: { mode, userId: auth.userId, bestScore: normalizedScore },
+          update: { bestScore: normalizedScore },
         });
       }
 
@@ -81,7 +83,7 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
               Type.Object({
                 id: Type.String(),
                 mode: GameModeSchema,
-                score: Type.Integer(),
+                score: Type.Number(),
                 createdAt: Type.String(),
               }),
             ),
@@ -128,6 +130,36 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         })),
         nextCursor,
       };
+    },
+  );
+
+  app.get(
+    "/scores/best/me",
+    {
+      preHandler: app.authenticate,
+      schema: {
+        summary: "Get my best score for a mode",
+        querystring: Type.Object({ mode: GameModeSchema }),
+        response: {
+          200: Type.Object({
+            mode: GameModeSchema,
+            userId: Type.String(),
+            bestScore: Type.Union([Type.Number(), Type.Null()]),
+          }),
+        },
+      },
+    },
+    async (request, reply) => {
+      const auth = request.auth;
+      if (!auth) return sendError(reply, 401, "UNAUTHORIZED", "Unauthorized");
+
+      const { mode } = request.query as { mode: "ODD_ONE_OUT" | "REMEMBER_COLOR" };
+      const row = await prisma.leaderboardEntry.findUnique({
+        where: { mode_userId: { mode, userId: auth.userId } },
+        select: { bestScore: true },
+      });
+
+      return { mode, userId: auth.userId, bestScore: row?.bestScore ?? null };
     },
   );
 };
