@@ -20,6 +20,7 @@ enum GameMode {
 model User {
   // Users are identified by their deviceId (no auth providers).
   id String @id
+  name String?
 
   createdAt DateTime @default(now())
   lastSeenAt DateTime @default(now())

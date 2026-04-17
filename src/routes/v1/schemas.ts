@@ -7,3 +7,5 @@ export const GameModeSchema = Type.Union([
 
 export const CursorSchema = Type.Optional(Type.String({ minLength: 1 }));
 
+export const UserNameSchema = Type.String({ minLength: 2, maxLength: 16 });
+
