@@ -143,7 +143,8 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
     "/leaderboard/around-me",
     {
       schema: {
-        summary: "Get leaderboard entries around a user",
+        summary:
+          "Get leaderboard entries around a user (same players as a score-ordered window; requested user is moved to the middle index for display)",
         querystring: Type.Object({
           mode: GameModeSchema,
           userId: Type.String(),
@@ -203,8 +204,20 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       }
       const aroundRows = scoredRows.slice(start, end);
 
+      const meIdx = aroundRows.findIndex((row) => row.userId === userId);
+      let orderedRows = aroundRows;
+      if (meIdx !== -1 && aroundRows.length > 0) {
+        const centerIdx = Math.floor((aroundRows.length - 1) / 2);
+        if (meIdx !== centerIdx) {
+          orderedRows = aroundRows.slice();
+          const removed = orderedRows.splice(meIdx, 1);
+          const meRow = removed[0];
+          if (meRow !== undefined) orderedRows.splice(centerIdx, 0, meRow);
+        }
+      }
+
       const names = await prisma.user.findMany({
-        where: { id: { in: aroundRows.map((r) => r.userId) } },
+        where: { id: { in: orderedRows.map((r) => r.userId) } },
         select: { id: true, name: true } as any,
       });
       const nameByUserId = new Map<string, string | null>();
@@ -215,7 +228,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       }
 
       return {
-        items: aroundRows.map((r) => ({
+        items: orderedRows.map((r) => ({
           mode,
           userId: r.userId,
           name: nameByUserId.get(r.userId) ?? r.userId,
