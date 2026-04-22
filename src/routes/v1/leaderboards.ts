@@ -4,6 +4,9 @@ import { prisma } from "../../lib/prisma.js";
 import { sendError } from "../../lib/errors.js";
 import { GameModeSchema } from "./schemas.js";
 
+/** Neighbors on each side of the requested user (global leaderboard order, best first). */
+const AROUND_ME_NEIGHBORS = 5;
+
 export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
   app.get(
     "/leaderboards",
@@ -144,14 +147,16 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
     {
       schema: {
         summary:
-          "Get leaderboard entries around a user (same players as a score-ordered window; requested user is moved to the middle index for display)",
+          "Global rank for a user plus up to five leaderboard neighbors above and below (best score first; same rank rules as /leaderboards/me)",
         querystring: Type.Object({
           mode: GameModeSchema,
           userId: Type.String(),
-          limit: Type.Optional(Type.Integer({ minimum: 1, maximum: 100, default: 20 })),
         }),
         response: {
           200: Type.Object({
+            mode: GameModeSchema,
+            userId: Type.String(),
+            rank: Type.Union([Type.Integer({ minimum: 1 }), Type.Null()]),
             items: Type.Array(
               Type.Object({
                 mode: GameModeSchema,
@@ -166,10 +171,9 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       },
     },
     async (request) => {
-      const { mode, userId, limit = 20 } = request.query as {
+      const { mode, userId } = request.query as {
         mode: "ODD_ONE_OUT" | "REMEMBER_COLOR";
         userId: string;
-        limit?: number;
       };
 
       const rows = await prisma.leaderboardEntry.findMany({
@@ -177,6 +181,11 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         orderBy: [{ bestScore: "desc" }, { updatedAt: "asc" }, { id: "asc" }],
         select: { userId: true, bestScore: true, updatedAt: true, id: true },
       });
+
+      const targetIndex = rows.findIndex((row) => row.userId === userId);
+      if (targetIndex === -1) {
+        return { mode, userId, rank: null, items: [] };
+      }
 
       const scoredRows = rows.map((row, index, allRows) => {
         const previous = index > 0 ? allRows[index - 1] : null;
@@ -189,35 +198,15 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         }
       }
 
-      const targetIndex = scoredRows.findIndex((row) => row.userId === userId);
-      if (targetIndex === -1) return { items: [] };
-
+      const rank = scoredRows[targetIndex]!.rank;
       const n = scoredRows.length;
-      const normalizedLimit = Math.max(1, limit);
-      const windowSize = Math.min(normalizedLimit, n);
-      let start = targetIndex - Math.floor(windowSize / 2);
-      if (start < 0) start = 0;
-      let end = start + windowSize;
-      if (end > n) {
-        end = n;
-        start = Math.max(0, end - windowSize);
-      }
-      const aroundRows = scoredRows.slice(start, end);
-
-      const meIdx = aroundRows.findIndex((row) => row.userId === userId);
-      let orderedRows = aroundRows;
-      if (meIdx !== -1 && aroundRows.length > 0) {
-        const centerIdx = Math.floor((aroundRows.length - 1) / 2);
-        if (meIdx !== centerIdx) {
-          orderedRows = aroundRows.slice();
-          const removed = orderedRows.splice(meIdx, 1);
-          const meRow = removed[0];
-          if (meRow !== undefined) orderedRows.splice(centerIdx, 0, meRow);
-        }
-      }
+      const k = AROUND_ME_NEIGHBORS;
+      const start = Math.max(0, targetIndex - k);
+      const end = Math.min(n, targetIndex + k + 1);
+      const windowRows = scoredRows.slice(start, end);
 
       const names = await prisma.user.findMany({
-        where: { id: { in: orderedRows.map((r) => r.userId) } },
+        where: { id: { in: windowRows.map((r) => r.userId) } },
         select: { id: true, name: true } as any,
       });
       const nameByUserId = new Map<string, string | null>();
@@ -228,7 +217,10 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       }
 
       return {
-        items: orderedRows.map((r) => ({
+        mode,
+        userId,
+        rank,
+        items: windowRows.map((r) => ({
           mode,
           userId: r.userId,
           name: nameByUserId.get(r.userId) ?? r.userId,
