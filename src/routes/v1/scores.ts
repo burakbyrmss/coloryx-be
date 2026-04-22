@@ -39,28 +39,51 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         return sendError(reply, 400, "BAD_REQUEST", "Remember Color score must be 0..100");
       }
 
-      const run = await prisma.scoreRun.create({
-        data: {
-          userId: auth.userId,
-          mode,
-          score: normalizedScore,
-          metaJson: meta ?? undefined,
-        },
-        select: { id: true, createdAt: true },
-      });
-
-      // Upsert leaderboard best score.
-      const existing = await prisma.leaderboardEntry.findUnique({
-        where: { mode_userId: { mode, userId: auth.userId } },
-        select: { bestScore: true },
-      });
-      if (!existing || normalizedScore > existing.bestScore) {
-        await prisma.leaderboardEntry.upsert({
-          where: { mode_userId: { mode, userId: auth.userId } },
-          create: { mode, userId: auth.userId, bestScore: normalizedScore },
-          update: { bestScore: normalizedScore },
+      const run = await prisma.$transaction(async (tx) => {
+        const existingRuns = await tx.scoreRun.findMany({
+          where: { userId: auth.userId, mode },
+          orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+          select: { id: true, score: true },
         });
-      }
+
+        if (existingRuns.length >= 5) {
+          const bestScore = existingRuns.reduce(
+            (max, row) => (row.score > max ? row.score : max),
+            Number.NEGATIVE_INFINITY,
+          );
+          const protectedBestRun = existingRuns.find((row) => row.score === bestScore);
+          const oldestNonBestRun = existingRuns.find((row) => row.id !== protectedBestRun?.id);
+
+          if (oldestNonBestRun) {
+            await tx.scoreRun.delete({ where: { id: oldestNonBestRun.id } });
+          }
+        }
+
+        const createdRun = await tx.scoreRun.create({
+          data: {
+            userId: auth.userId,
+            mode,
+            score: normalizedScore,
+            metaJson: meta ?? undefined,
+          },
+          select: { id: true, createdAt: true },
+        });
+
+        // Upsert leaderboard best score.
+        const existing = await tx.leaderboardEntry.findUnique({
+          where: { mode_userId: { mode, userId: auth.userId } },
+          select: { bestScore: true },
+        });
+        if (!existing || normalizedScore > existing.bestScore) {
+          await tx.leaderboardEntry.upsert({
+            where: { mode_userId: { mode, userId: auth.userId } },
+            create: { mode, userId: auth.userId, bestScore: normalizedScore },
+            update: { bestScore: normalizedScore },
+          });
+        }
+
+        return createdRun;
+      });
 
       return { id: run.id, createdAt: run.createdAt.toISOString() };
     },
