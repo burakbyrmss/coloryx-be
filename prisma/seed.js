@@ -1,5 +1,18 @@
 import "dotenv/config";
-import { PrismaClient } from "../src/generated/prisma/client.js";
+
+// Prisma generates TS under src/generated; the runnable ESM build lives in dist after `npm run build`
+// (matches Docker runtime, which copies /app/dist but not compiled client under src).
+const clientUrl = new URL("../dist/generated/prisma/client.js", import.meta.url).href;
+
+let PrismaClient;
+try {
+  ({ PrismaClient } = await import(clientUrl));
+} catch {
+  console.error(
+    "Could not load Prisma client from dist. Run: npm run prisma:generate && npm run build",
+  );
+  process.exit(1);
+}
 
 const prisma = new PrismaClient();
 
