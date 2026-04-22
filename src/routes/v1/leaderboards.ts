@@ -58,9 +58,12 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         where: { id: { in: page.map((r) => r.userId) } },
         select: { id: true, name: true } as any,
       });
-      const nameByUserId = new Map(
-        (names as Array<{ id: string; name?: string | null }>).map((u) => [u.id, u.name ?? null] as const),
-      );
+      const nameByUserId = new Map<string, string | null>();
+      for (const user of names as any[]) {
+        if (typeof user?.id === "string") {
+          nameByUserId.set(user.id, typeof user?.name === "string" ? user.name : null);
+        }
+      }
 
       return {
         items: page.map((r: { userId: string; bestScore: number; updatedAt: Date }) => ({
