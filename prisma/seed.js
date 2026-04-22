@@ -1,4 +1,6 @@
 import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
 // Prisma generates TS under src/generated; the runnable ESM build lives in dist after `npm run build`
 // (matches Docker runtime, which copies /app/dist but not compiled client under src).
@@ -14,7 +16,31 @@ try {
   process.exit(1);
 }
 
-const prisma = new PrismaClient();
+function getConnectionString() {
+  if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
+  const user = process.env.POSTGRES_USER;
+  const password = process.env.POSTGRES_PASSWORD;
+  const db =
+    process.env.POSTGRES_DB ?? process.env.POSTGRES_PROD_DB ?? process.env.POSTGRES_TEST_DB;
+  if (!user || !password || !db) return null;
+  const host = process.env.POSTGRES_HOST ?? "localhost";
+  const port = process.env.POSTGRES_PORT ?? "5432";
+  const schema = process.env.POSTGRES_SCHEMA ?? "public";
+  return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${encodeURIComponent(db)}?schema=${encodeURIComponent(schema)}`;
+}
+
+const connectionString = getConnectionString();
+if (!connectionString) {
+  console.error(
+    "Missing database URL. Set DATABASE_URL or POSTGRES_USER, POSTGRES_PASSWORD, and POSTGRES_DB (or POSTGRES_PROD_DB / POSTGRES_TEST_DB).",
+  );
+  process.exit(1);
+}
+
+const pool = new Pool({ connectionString });
+const prisma = new PrismaClient({
+  adapter: new PrismaPg(pool),
+});
 
 const USER_COUNT = 50;
 const RUNS_PER_MODE_PER_USER = 5;
@@ -83,4 +109,5 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
+    await pool.end();
   });
