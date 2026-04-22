@@ -22,6 +22,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
                 userId: Type.String(),
                 name: Type.String(),
                 bestScore: Type.Number(),
+                rank: Type.Integer({ minimum: 1 }),
                 updatedAt: Type.String(),
               }),
             ),
@@ -58,6 +59,18 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         where: { id: { in: page.map((r) => r.userId) } },
         select: { id: true, name: true } as any,
       });
+      const uniqueScores = [...new Set(page.map((r) => r.bestScore))];
+      const betterCountPairs = await Promise.all(
+        uniqueScores.map(async (score) => {
+          const betterCount = await prisma.leaderboardEntry.count({
+            where: { mode, bestScore: { gt: score } },
+          });
+          return [score, betterCount] as const;
+        }),
+      );
+      const rankByScore = new Map<number, number>(
+        betterCountPairs.map(([score, betterCount]) => [score, betterCount + 1]),
+      );
       const nameByUserId = new Map<string, string | null>();
       for (const user of names as any[]) {
         if (typeof user?.id === "string") {
@@ -70,6 +83,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
           userId: r.userId,
           name: nameByUserId.get(r.userId) ?? r.userId,
           bestScore: r.bestScore,
+          rank: rankByScore.get(r.bestScore) ?? 1,
           updatedAt: r.updatedAt.toISOString(),
         })),
         nextCursor,
@@ -90,6 +104,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
             userId: Type.String(),
             name: Type.String(),
             bestScore: Type.Union([Type.Number(), Type.Null()]),
+            rank: Type.Union([Type.Integer({ minimum: 1 }), Type.Null()]),
           }),
         },
       },
@@ -107,12 +122,101 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         where: { id: auth.userId },
         select: { name: true } as any,
       });
+      const rank =
+        row?.bestScore == null
+          ? null
+          : (await prisma.leaderboardEntry.count({
+              where: { mode, bestScore: { gt: row.bestScore } },
+            })) + 1;
 
       return {
         mode,
         userId: auth.userId,
         name: (user as { name?: string | null } | null)?.name ?? auth.userId,
         bestScore: row?.bestScore ?? null,
+        rank,
+      };
+    },
+  );
+
+  app.get(
+    "/leaderboard/around-me",
+    {
+      schema: {
+        summary: "Get leaderboard entries around a user",
+        querystring: Type.Object({
+          mode: GameModeSchema,
+          userId: Type.String(),
+          limit: Type.Optional(Type.Integer({ minimum: 1, maximum: 100, default: 20 })),
+        }),
+        response: {
+          200: Type.Object({
+            items: Type.Array(
+              Type.Object({
+                mode: GameModeSchema,
+                userId: Type.String(),
+                name: Type.String(),
+                bestScore: Type.Number(),
+                rank: Type.Integer({ minimum: 1 }),
+              }),
+            ),
+          }),
+        },
+      },
+    },
+    async (request) => {
+      const { mode, userId, limit = 20 } = request.query as {
+        mode: "ODD_ONE_OUT" | "REMEMBER_COLOR";
+        userId: string;
+        limit?: number;
+      };
+
+      const rows = await prisma.leaderboardEntry.findMany({
+        where: { mode },
+        orderBy: [{ bestScore: "desc" }, { updatedAt: "asc" }, { id: "asc" }],
+        select: { userId: true, bestScore: true, updatedAt: true, id: true },
+      });
+
+      const scoredRows = rows.map((row, index, allRows) => {
+        const previous = index > 0 ? allRows[index - 1] : null;
+        const rank = previous && previous.bestScore === row.bestScore ? 0 : index + 1;
+        return { ...row, rank };
+      });
+      for (let i = 0; i < scoredRows.length; i += 1) {
+        if (scoredRows[i]!.rank === 0) {
+          scoredRows[i]!.rank = scoredRows[i - 1]!.rank;
+        }
+      }
+
+      const targetIndex = scoredRows.findIndex((row) => row.userId === userId);
+      if (targetIndex === -1) return { items: [] };
+
+      const normalizedLimit = Math.max(1, limit);
+      const half = Math.floor(normalizedLimit / 2);
+      const start = Math.max(0, targetIndex - half);
+      const end = Math.min(scoredRows.length, start + normalizedLimit);
+      const startAdjusted = Math.max(0, end - normalizedLimit);
+      const aroundRows = scoredRows.slice(startAdjusted, end);
+
+      const names = await prisma.user.findMany({
+        where: { id: { in: aroundRows.map((r) => r.userId) } },
+        select: { id: true, name: true } as any,
+      });
+      const nameByUserId = new Map<string, string | null>();
+      for (const user of names as any[]) {
+        if (typeof user?.id === "string") {
+          nameByUserId.set(user.id, typeof user?.name === "string" ? user.name : null);
+        }
+      }
+
+      return {
+        items: aroundRows.map((r) => ({
+          mode,
+          userId: r.userId,
+          name: nameByUserId.get(r.userId) ?? r.userId,
+          bestScore: r.bestScore,
+          rank: r.rank,
+        })),
       };
     },
   );
