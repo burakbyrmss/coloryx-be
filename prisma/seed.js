@@ -53,7 +53,7 @@ function randomInt(min, max) {
 }
 
 function randomRememberColorScore() {
-  return Number((Math.random() * 100).toFixed(1));
+  return Number((Math.random() * 50).toFixed(1));
 }
 
 function randomOddOneOutScore() {

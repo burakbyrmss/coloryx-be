@@ -35,8 +35,8 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         mode === "REMEMBER_COLOR" ? Number(score.toFixed(1)) : score;
 
       // Mode-specific constraints
-      if (mode === "REMEMBER_COLOR" && (normalizedScore < 0 || normalizedScore > 100)) {
-        return sendError(reply, 400, "BAD_REQUEST", "Remember Color score must be 0..100");
+      if (mode === "REMEMBER_COLOR" && (normalizedScore < 0 || normalizedScore > 50)) {
+        return sendError(reply, 400, "BAD_REQUEST", "Remember Color score must be 0..50");
       }
 
       const run = await prisma.$transaction(async (tx) => {

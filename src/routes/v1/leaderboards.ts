@@ -191,12 +191,17 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       const targetIndex = scoredRows.findIndex((row) => row.userId === userId);
       if (targetIndex === -1) return { items: [] };
 
+      const n = scoredRows.length;
       const normalizedLimit = Math.max(1, limit);
-      const half = Math.floor(normalizedLimit / 2);
-      const start = Math.max(0, targetIndex - half);
-      const end = Math.min(scoredRows.length, start + normalizedLimit);
-      const startAdjusted = Math.max(0, end - normalizedLimit);
-      const aroundRows = scoredRows.slice(startAdjusted, end);
+      const windowSize = Math.min(normalizedLimit, n);
+      let start = targetIndex - Math.floor(windowSize / 2);
+      if (start < 0) start = 0;
+      let end = start + windowSize;
+      if (end > n) {
+        end = n;
+        start = Math.max(0, end - windowSize);
+      }
+      const aroundRows = scoredRows.slice(start, end);
 
       const names = await prisma.user.findMany({
         where: { id: { in: aroundRows.map((r) => r.userId) } },
