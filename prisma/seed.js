@@ -1,22 +1,23 @@
 import "dotenv/config";
-import { GameMode, PrismaClient } from "../src/generated/prisma/client.js";
+import { PrismaClient } from "../src/generated/prisma/client.js";
 
 const prisma = new PrismaClient();
 
 const USER_COUNT = 50;
 const RUNS_PER_MODE_PER_USER = 5;
 
-const MODES: GameMode[] = [GameMode.ODD_ONE_OUT, GameMode.REMEMBER_COLOR];
+/** @type {const} */
+const MODES = ["ODD_ONE_OUT", "REMEMBER_COLOR"];
 
-function randomInt(min: number, max: number): number {
+function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomRememberColorScore(): number {
+function randomRememberColorScore() {
   return Number((Math.random() * 100).toFixed(1));
 }
 
-function randomOddOneOutScore(): number {
+function randomOddOneOutScore() {
   return randomInt(10, 5000);
 }
 
@@ -40,7 +41,7 @@ async function main() {
       const runs = Array.from({ length: RUNS_PER_MODE_PER_USER }, () => ({
         userId,
         mode,
-        score: mode === GameMode.REMEMBER_COLOR ? randomRememberColorScore() : randomOddOneOutScore(),
+        score: mode === "REMEMBER_COLOR" ? randomRememberColorScore() : randomOddOneOutScore(),
       }));
 
       await prisma.scoreRun.createMany({
@@ -57,7 +58,6 @@ async function main() {
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(
     `Seed complete: ${USER_COUNT} users, ${USER_COUNT * MODES.length * RUNS_PER_MODE_PER_USER} score runs, ${USER_COUNT * MODES.length} leaderboard entries.`,
   );
@@ -65,7 +65,6 @@ async function main() {
 
 main()
   .catch(async (error) => {
-    // eslint-disable-next-line no-console
     console.error("Seed failed:", error);
     process.exitCode = 1;
   })
