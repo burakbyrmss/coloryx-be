@@ -20,7 +20,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
             items: Type.Array(
               Type.Object({
                 userId: Type.String(),
-                name: Type.Union([Type.String(), Type.Null()]),
+                name: Type.String(),
                 bestScore: Type.Number(),
                 updatedAt: Type.String(),
               }),
@@ -65,7 +65,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       return {
         items: page.map((r: { userId: string; bestScore: number; updatedAt: Date }) => ({
           userId: r.userId,
-          name: nameByUserId.get(r.userId) ?? null,
+          name: nameByUserId.get(r.userId) ?? r.userId,
           bestScore: r.bestScore,
           updatedAt: r.updatedAt.toISOString(),
         })),
@@ -85,7 +85,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
           200: Type.Object({
             mode: GameModeSchema,
             userId: Type.String(),
-            name: Type.Union([Type.String(), Type.Null()]),
+            name: Type.String(),
             bestScore: Type.Union([Type.Number(), Type.Null()]),
           }),
         },
@@ -108,7 +108,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       return {
         mode,
         userId: auth.userId,
-        name: (user as { name?: string | null } | null)?.name ?? null,
+        name: (user as { name?: string | null } | null)?.name ?? auth.userId,
         bestScore: row?.bestScore ?? null,
       };
     },
