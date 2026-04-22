@@ -144,6 +144,7 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
           200: Type.Object({
             mode: GameModeSchema,
             userId: Type.String(),
+            name: Type.Union([Type.String(), Type.Null()]),
             bestScore: Type.Union([Type.Number(), Type.Null()]),
           }),
         },
@@ -158,8 +159,17 @@ export const scoresRoutes: FastifyPluginAsync = async (app) => {
         where: { mode_userId: { mode, userId: auth.userId } },
         select: { bestScore: true },
       });
+      const user = await prisma.user.findUnique({
+        where: { id: auth.userId },
+        select: { name: true } as any,
+      });
 
-      return { mode, userId: auth.userId, bestScore: row?.bestScore ?? null };
+      return {
+        mode,
+        userId: auth.userId,
+        name: (user as { name?: string | null } | null)?.name ?? null,
+        bestScore: row?.bestScore ?? null,
+      };
     },
   );
 };

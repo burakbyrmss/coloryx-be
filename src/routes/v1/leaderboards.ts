@@ -20,6 +20,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
             items: Type.Array(
               Type.Object({
                 userId: Type.String(),
+                name: Type.Union([Type.String(), Type.Null()]),
                 bestScore: Type.Number(),
                 updatedAt: Type.String(),
               }),
@@ -53,10 +54,18 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
       const hasMore = rows.length > limit;
       const page = hasMore ? rows.slice(0, limit) : rows;
       const nextCursor = hasMore ? page[page.length - 1]!.id : null;
+      const names = await prisma.user.findMany({
+        where: { id: { in: page.map((r) => r.userId) } },
+        select: { id: true, name: true } as any,
+      });
+      const nameByUserId = new Map(
+        (names as Array<{ id: string; name?: string | null }>).map((u) => [u.id, u.name ?? null] as const),
+      );
 
       return {
         items: page.map((r: { userId: string; bestScore: number; updatedAt: Date }) => ({
           userId: r.userId,
+          name: nameByUserId.get(r.userId) ?? null,
           bestScore: r.bestScore,
           updatedAt: r.updatedAt.toISOString(),
         })),
@@ -76,6 +85,7 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
           200: Type.Object({
             mode: GameModeSchema,
             userId: Type.String(),
+            name: Type.Union([Type.String(), Type.Null()]),
             bestScore: Type.Union([Type.Number(), Type.Null()]),
           }),
         },
@@ -90,8 +100,17 @@ export const leaderboardsRoutes: FastifyPluginAsync = async (app) => {
         where: { mode_userId: { mode, userId: auth.userId } },
         select: { bestScore: true },
       });
+      const user = await prisma.user.findUnique({
+        where: { id: auth.userId },
+        select: { name: true } as any,
+      });
 
-      return { mode, userId: auth.userId, bestScore: row?.bestScore ?? null };
+      return {
+        mode,
+        userId: auth.userId,
+        name: (user as { name?: string | null } | null)?.name ?? null,
+        bestScore: row?.bestScore ?? null,
+      };
     },
   );
 };

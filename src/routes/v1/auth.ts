@@ -21,6 +21,7 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
         response: {
           200: Type.Object({
             userId: Type.String(),
+            name: Type.Union([Type.String(), Type.Null()]),
             deviceId: Type.String(),
             accessToken: Type.String(),
             refreshToken: Type.String(),
@@ -36,7 +37,7 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
         where: { id: deviceId },
         update: { platform, lastSeenAt: new Date() },
         create: { id: deviceId, platform },
-        select: { id: true },
+        select: { id: true, name: true },
       });
       const userId = user.id;
 
@@ -59,7 +60,7 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
         refreshTokenOptions(),
       );
 
-      return { userId, deviceId, accessToken, refreshToken };
+      return { userId, name: user.name, deviceId, accessToken, refreshToken };
     },
   );
 
