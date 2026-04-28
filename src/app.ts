@@ -22,12 +22,14 @@ export async function buildApp() {
   });
   await app.register(rateLimit, { max: 300, timeWindow: "1 minute" });
 
-  await app.register(swagger, {
-    openapi: {
-      info: { title: "Coloryx API", version: "v1" },
-    },
-  });
-  await app.register(swaggerUi, { routePrefix: "/docs" });
+  if (process.env.NODE_ENV !== "production") {
+    await app.register(swagger, {
+      openapi: {
+        info: { title: "Coloryx API", version: "v1" },
+      },
+    });
+    await app.register(swaggerUi, { routePrefix: "/docs" });
+  }
 
   await app.register(authPlugin);
 
@@ -44,8 +46,6 @@ export async function buildApp() {
   });
 
   await app.register(routes);
-
-  app.get("/health", async () => ({ ok: true }));
 
   app.get("/ping", async () => ({
     ok: true,
